@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "942841852091",
+    "firebase_url": "https://lxguide-fa54f.firebaseio.com",
+    "project_id": "lxguide-fa54f",
+    "storage_bucket": "lxguide-fa54f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:942841852091:android:6d3ea46b9d204b7abab99e",
+        "android_client_info": {
+          "package_name": "group7.LXGuide"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "942841852091-i9ql1086l86q87vsbl3t28ku2s5k6afa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQrw1Nha1HN54mZDTMHcB2vtDKSkwyB8w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "942841852091-i9ql1086l86q87vsbl3t28ku2s5k6afa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:942841852091:android:5f4f278b712b1764bab99e",
+        "android_client_info": {
+          "package_name": "group7.lxguide"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "942841852091-i9ql1086l86q87vsbl3t28ku2s5k6afa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQrw1Nha1HN54mZDTMHcB2vtDKSkwyB8w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "942841852091-i9ql1086l86q87vsbl3t28ku2s5k6afa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
