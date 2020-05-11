@@ -2,15 +2,10 @@
 
 import 'dart:async';
 
+import 'package:flutter_tags/selectable_tags.dart';
+import 'package:flutter_tags/input_tags.dart';
 import 'package:flutter/material.dart';
-// import 'package:firebase_database/firebase_database.dart';
-// import 'package:firebase/firestore.dart';
-// import 'package:firebase/firebase.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_core/firebase_core.dart';
-// import 'dart:async';
-//import 'package:flutter/rendering.dart';
-//import 'package:flutter/widgets.dart';
 import 'package:search_widget/search_widget.dart';
 
 void main() => runApp(MyApp());
@@ -40,11 +35,12 @@ class MyApp extends StatelessWidget {
                     color: Colors.pinkAccent,
                   ),
                   onPressed: () {})),
-          body: Stack(
-            children: [
-              MyHomePage()
-            ],
-          ),
+          body: MyHomePage(),
+//          Stack(
+//            children: [
+//              TagsState(),
+//            ],
+//          ),
         ),
 
       ),
@@ -89,7 +85,6 @@ class MyApp extends StatelessWidget {
       ),
     ),
   );
-//formstate in request the new tag
 
 }
 
@@ -102,16 +97,33 @@ class MyHomePage extends StatefulWidget {
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
+//  _TagsState createSecondState() => _TagsState();
+
 }
 
+//class TagsState extends StatefulWidget {
+//
+//  //  title = "Welcome tom my app";
+//  TagsState({Key key}) : super(key: key);
+//
+//  @override
+////  _MyHomePageState createState() => _MyHomePageState();
+//  _TagsState createState() => _TagsState();
+//
+//}
+
 class _MyHomePageState extends State<MyHomePage> {
-  TextEditingController _controller;
+
+ TextEditingController _controller;
 
   void initState() {
     super.initState();
     _controller = TextEditingController();
-
+    _controller.addListener(_printControl);
   }
+ String _printControl() {
+   return _controller.text;
+ }
   void dispose() {
     _controller.dispose();
     super.dispose();
@@ -176,41 +188,22 @@ class _MyHomePageState extends State<MyHomePage> {
 //        ),
 //      );
 //    }
-//
-//  Widget _wrapTag(BuildContext context, List<DocumentSnapshot> snapshot) {
-//    return Wrap(
-//      spacing: 8.0,
-//      runSpacing: 4.0,
-//      children: snapshot.map((data) => _showTag(context, data)).toList(),
-//    );
-//  }
-//
-//     Widget _showTag( BuildContext context, DocumentSnapshot data ) {
-//        final tag = Tags.fromSnapshot(data);
-//        return
-//          Material(
-//            color: Colors.deepPurple,
-//            child: FlatButton(
-//              child: Text(
-//                tag.keywordName,
-//                style: TextStyle(color: Colors.white ),
-//              ),
-//          ),
-//        );
-//     }
 
-//List<DataFromDb> list = [];
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Baby Name Votes')),
-      body: _list(),
+      backgroundColor: Colors.transparent,
+//      appBar: AppBar(title: Text('Baby Name Votes')),
+      body: //Stack(
+        _listRoom(),
     );
   }
 
 DocumentSnapshot _selectedItem;
 bool _show = true;
-  Widget _list() {
+
+  Widget _listRoom() {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       body: StreamBuilder(
         stream: Firestore.instance.collection("lxroom").snapshots(),
         builder: (context, snapshot) {
@@ -223,6 +216,152 @@ bool _show = true;
     );
   }
 
+  Widget _listKeyword() {
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: StreamBuilder(
+        stream: Firestore.instance.collection("keyword").snapshots(),
+        builder: (context, snapshot ) {
+          if(!snapshot.hasData ) return const Text("check on keyword syntax please");
+          return _wrapTag(context, snapshot.data.documents );
+        },
+      ),
+    );
+  }
+  Widget _wrapTag(BuildContext context, List<DocumentSnapshot> snapshot) {
+//    chil snapshot.map((data) => _showTag(context, data)).toList()
+      return Wrap(
+        spacing: 8.0,
+        runSpacing: 4.0,
+//        direction: Axis.vertical,
+        children: snapshot.map((data) => _showTag(context, data)).toList(),
+      );
+  }
+
+  Widget _showTag( BuildContext context, DocumentSnapshot data ) {
+    final tag = GetTags.fromSnapshot(data);
+    return
+      Material(
+        child: RaisedButton(
+          color: Colors.deepPurple,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18.0),
+              side: BorderSide(color: Colors.deepPurple)
+          ),
+          child: Text(
+            tag.keywordName,
+            style: TextStyle(color: Colors.white),
+          ),
+          onPressed: () {
+            //navigate to room page
+          },
+        ),
+      );
+  }
+
+  Widget _createTag() {
+
+    return Material(
+      child: FlatButton.icon(
+        color: Colors.white,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18.0),
+            side: BorderSide(color: Colors.indigo )
+        ),
+         label:
+            Text(
+            "Create Tag",
+              style: TextStyle(color: Colors.indigo),
+            ),
+          icon: Icon(Icons.add, color: Colors.indigo),
+        onPressed: () {
+            _showMyDialog(context);
+        },
+      ),
+    );
+  }
+  final databaseReference = Firestore.instance;
+
+  int count = 0;
+
+
+
+  void createRecord(String key ) async {
+
+    await databaseReference.collection("keyword")
+        .document("key$count" )
+        .setData({
+      'keywordName': "$key",
+      'roomId': "null"
+    });
+    count++;
+    print(count);
+  }
+  String userInput = "";
+
+  Future<void> _showMyDialog(BuildContext context) async {
+    TextEditingController _controllerCreateRecord;
+    FocusNode focusNode;
+
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Row(
+            children: <Widget> [
+              Text('Create Tag'),
+              Icon(Icons.add) ,
+            ],
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                TextField(
+                  controller: _controller,
+                  focusNode: focusNode,
+                  style: TextStyle(fontSize: 16, color: Colors.grey[600]),
+                  decoration: InputDecoration(
+                    enabledBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color(0x4437474F),
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Theme.of(context).primaryColor),
+                    ),
+                    border: InputBorder.none,
+                    hintText: "Type your keyword",
+                    contentPadding: const EdgeInsets.only(
+                      left: 16,
+                      right: 20,
+                      top: 14,
+                      bottom: 14,
+                    ),
+                  ),
+                  onChanged: (String text) {
+                    setState(() {
+                      print(_controller.text );
+                      userInput = _controller.text;
+                    });
+                  },
+                ),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('SEND REQUEST'),
+              onPressed: () {
+                  createRecord( _controller.text );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Widget _build(BuildContext context, List<DocumentSnapshot> snapshot) {
 //    List<DataFromDb> list = DataFromDb.fromSnapshot(snapshot) ;
 //  snapshot.map( (data ) => );
@@ -230,63 +369,65 @@ bool _show = true;
 //  final list = DataFromDb.fromSnapshot(snapshot) ;
 //    List<DataFromDb> list = DataFromDb.fromSnapshot(snapshot.map( (data) => )).toList();
     return Scaffold(
+      backgroundColor: Colors.transparent,
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(vertical: 16),
-        child: Column(
-          children: <Widget>[
-
-            const SizedBox(
-              height: 16,
-            ),
-            if( _show )
-              SearchWidget<DocumentSnapshot>(
-                dataList: snapshot,
-                hideSearchBoxWhenItemSelected: false,
-                listContainerHeight: MediaQuery.of(context).size.height/4,
-                queryBuilder: (query, list ) {
-                  return list
-                      .where( (item ) => item["roomName"]
-                      .toLowerCase()
-                      .contains((query.toLowerCase() ) ))
-                      .toList();
-                },
-                popupListItemBuilder:  (item ) {
-                  return PopupListItemWidget( item );
-                },
-                selectedItemBuilder: ( _selectedItem, deleteSelectedItem) {
-                  return SelectedItemWidget( _selectedItem, deleteSelectedItem);
-                },
-                // widget customization
-                noItemsFoundWidget: NoItemsFound(),
-                textFieldBuilder: (controller, focusNode ) {
-                  return MyTextField(controller, focusNode );
-                },
-                onItemSelected: (item) {
-                  setState( () {
-                    _selectedItem = item;
-                  });
-                },
+        child:
+          Column(
+            children: <Widget>[
+              const SizedBox(
+                height: 16,
               ),
-            const SizedBox(
-              height: 32,
-            ),
-            Text(
-              "${_selectedItem != null ? _selectedItem["roomName"] : "" "No Item selected "}",
-            ),
-          ],
+              if( _show )
+                SearchWidget<DocumentSnapshot>(
+                  dataList: snapshot,
+                  hideSearchBoxWhenItemSelected: false,
+                  listContainerHeight: MediaQuery.of(context).size.height/4,
+                  queryBuilder: (query, list ) {
+                    return list
+                        .where( (item ) => item["roomName"]
+                        .toLowerCase()
+                        .contains((query.toLowerCase() ) ))
+                        .toList();
+                  },
+                  popupListItemBuilder:  (item ) {
+                    return PopupListItemWidget( item );
+                  },
+                  selectedItemBuilder: ( _selectedItem, deleteSelectedItem) {
+                    return SelectedItemWidget( _selectedItem, deleteSelectedItem);
+                  },
+                  // widget customization
+                  noItemsFoundWidget: NoItemsFound(),
+                  textFieldBuilder: (controller, focusNode ) {
+                    return MyTextField(controller, focusNode );
+                  },
+                  onItemSelected: (item) {
+                    setState( () {
+//                      _selectedItem = item;
+                    });
+                  },
+                ),
+              const SizedBox(
+                height: 32,
+              ),
+              SizedBox(
+                height: 300,
+                  child:  _listKeyword(),
+
+                ),
+              _createTag(),
+
+
+
+
+//            Text(
+//              "${_selectedItem != null ? _selectedItem["roomName"] : "" "No Item selected "}",
+//            ),
+            ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState( () {
-            _show = !_show;
-          });
-        },
-        child: Icon(Icons.search),
       ),
     );
   }
-
 
 }
 
@@ -351,6 +492,7 @@ bool _show = true;
 //    print("code controller is here");
 //  }
 //}
+
 class SelectedItemWidget extends StatelessWidget {
     const SelectedItemWidget(this.selectedItem, this.deleteSelectedItem);
 
@@ -398,9 +540,13 @@ class MyTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-      child: TextField(
+    return
+      Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 50),
+      child:
+      Wrap(
+        children: <Widget>[
+          TextField(
         controller: controller,
         focusNode: focusNode,
         style: TextStyle(fontSize: 16, color: Colors.grey[600]),
@@ -413,9 +559,8 @@ class MyTextField extends StatelessWidget {
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Theme.of(context).primaryColor),
           ),
-          suffixIcon: Icon(Icons.search),
           border: InputBorder.none,
-          hintText: "Search here...",
+          hintText: "Type room/activity for navigation..",
           contentPadding: const EdgeInsets.only(
             left: 16,
             right: 20,
@@ -423,6 +568,19 @@ class MyTextField extends StatelessWidget {
             bottom: 14,
           ),
         ),
+      ),
+          ClipOval(
+            child: Material(
+              color: Colors.teal, // button color
+              child: InkWell(
+                splashColor: Colors.green, // inkwell color
+                child: SizedBox(width: 50, height: 50, child: Icon(Icons.search)),
+                onTap: () {
+                },
+              ),
+            ),
+          )
+      ],
       ),
     );
   }
@@ -464,7 +622,7 @@ class PopupListItemWidget extends StatelessWidget {
       child: ListTile(
 
         leading: Text( item['roomName'], style: const TextStyle(fontSize: 16) ),
-        trailing:  Text(item['distance'], style: const TextStyle(fontSize: 16) ),
+        trailing:  Text( item["distance"] + " away ", style: const TextStyle(fontSize: 16) ),
       ),
 
     );
@@ -487,30 +645,20 @@ class DataFromDb {
       : this.fromMap(snapshot.data, reference: snapshot.reference);
 
 }
-class SearchFunction {
-  String userInput;
-  String tagKeyword;
 
-  //expression /*?()[]
-
-  //search userInput --> DB --> REcord Class
-
-// record result --> $variable --> record class
-
-}
-class Tags {
+class GetTags {
   final String keywordName;
   final String roomId;
 
   final DocumentReference reference;
 
-  Tags.fromMap(Map<String, dynamic> map, {this.reference})
+  GetTags.fromMap(Map<String, dynamic> map, {this.reference})
       : assert(map['keywordName'] != null),
         assert(map['roomId'] != null),
         keywordName = map['keywordName'],
         roomId = map['roomId'];
 
-  Tags.fromSnapshot(DocumentSnapshot snapshot)
+  GetTags.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data, reference: snapshot.reference);
 
   @override
@@ -518,7 +666,6 @@ class Tags {
 
   //assert roomId(lxRoom) and roomId(keyword)
 }
-
 class Users {
   final String name;
   final int email;
@@ -536,3 +683,7 @@ class Users {
   @override
   String toString() => "Record<$name:$email>";
 }
+
+
+
+
