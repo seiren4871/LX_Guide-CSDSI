@@ -65,20 +65,20 @@ class _ContactUsState extends State<ContactUs> {
               borderRadius: BorderRadius.circular(25.0),
             ),
             padding: new EdgeInsets.all(10.0),
-            margin: EdgeInsets.fromLTRB(15.0, 50.0, 15.0, 150.0),
+            margin: EdgeInsets.fromLTRB(15.0, 80.0, 15.0, 150.0),
             child: Column(
               children: <Widget>[
                 IconButton(
-                  color: Color(0xFFf8777c),
                   icon: Icon(Icons.feedback),
-                  iconSize: 100.0,
+                  color: Color(0xFFf8777c),
+                  iconSize: 80.0,
                   onPressed: null,
                 ),
                 Text(
                   "Contact Us",
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFFf8777c),
+                      color:  Color(0xFFf8777c),
                       fontSize: 20.0),
                 ),
                 nameTag(),

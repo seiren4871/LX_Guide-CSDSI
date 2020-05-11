@@ -352,8 +352,8 @@ class _IndoorMapState extends State<IndoorMap> {
       ),
       body: Center(
         child: ZoomContainer(
-          zoomLevel: 3,
-          imageProvider: Image.asset("assets/img/LXExhibitPlan01.png").image,
+          zoomLevel: 2,
+          imageProvider: Image.asset("assets/img/floorPlan.png").image,
           // objects: [
           //   MapObject(
           //     child: Container(

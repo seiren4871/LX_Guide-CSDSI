@@ -29,6 +29,12 @@ class AppDrawer extends StatelessWidget {
                   builder: (BuildContext context) => MyApp()));
             },
           ),
+          Divider(),
+          _createDrawerItem(
+            icon: Icons.language,
+            text: 'Switch Language',
+            onTap: null,
+          ),
         ],
       ),
     );
@@ -41,7 +47,7 @@ class AppDrawer extends StatelessWidget {
       currentAccountPicture: CircleAvatar(
         backgroundColor: Colors.white,
         child: Text(
-          "A",
+          "J",
           style: TextStyle(fontSize: 40.0),
         ),
       ),
