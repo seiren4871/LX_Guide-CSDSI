@@ -1,11 +1,14 @@
 // import 'dart:html';
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-import 'package:lx_guide/informationPage.dart';
-import 'package:lx_guide/main_IndoorMap.dart';
-import 'package:flutter/services.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'RoomInfomation.dart';
 import 'contact.dart';
+import 'package:search_widget/search_widget.dart';
+import "drawer.dart";
+import 'informationPage.dart';
 import 'theme.dart';
 
 final ThemeData _colorTheme = _buildColorTheme();
@@ -20,64 +23,46 @@ ThemeData _buildColorTheme() {
     errorColor: ErrorRed,
   );
 }
-=======
-// import 'package:firebase_database/firebase_database.dart';
-// import 'package:firebase/firestore.dart';
-// import 'package:firebase/firebase.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_core/firebase_core.dart';
-// import 'dart:async';
-//import 'package:flutter/rendering.dart';
-//import 'package:flutter/widgets.dart';
-import 'package:search_widget/search_widget.dart';
->>>>>>> ad7201275083f9d015b7d3bbbbc8ade209c338a1
 
-void main() => runApp(MyApp());
+void main() => runApp(SearchRoom());
 
-class MyApp extends StatelessWidget {
+class SearchRoom extends StatelessWidget {
   // This widget is the root of your application.
 
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-<<<<<<< HEAD
+      title: 'LX_Guide',
       theme: _colorTheme,
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-=======
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
       home: Container(
         decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("assets/background.jpg"),
-              fit: BoxFit.fill,
-            )),
+          image: AssetImage("assets/background.jpg"),
+          fit: BoxFit.fill,
+        )),
         child: Scaffold(
           backgroundColor: Colors.transparent,
-          bottomNavigationBar:  bottomNavigation,
+          bottomNavigationBar: bottomNavigation(context),
+          drawer: AppDrawer(),
           appBar: AppBar(
-              title: IconButton(
-                  icon: Icon(
-                    Icons.dehaze,
-                    color: Colors.pinkAccent,
-                  ),
-                  onPressed: () {})),
-          body: Stack(
-            children: [
-              MyHomePage()
-            ],
+            backgroundColor: Color(0xFFf8777c),
+            title: Text("Search Room"),
           ),
+//          resizeToAvoidBottomPadding: false,
+          body: MyHomePage(),
+//          Stack(
+//            children: [
+//              TagsState(),
+//            ],
+//          ),
         ),
-
       ),
->>>>>>> ad7201275083f9d015b7d3bbbbc8ade209c338a1
     );
   }
 
-  final  bottomNavigation = BottomAppBar(
+ Widget bottomNavigation(BuildContext context) {
+  return BottomAppBar(
     // alignment: Alignment.bottomCenter,
-    color: Colors.transparent,
+    color: Color(0xFF0d1b46),
     child: Container(
       child: ListTile(
         leading: Container(
@@ -85,13 +70,16 @@ class MyApp extends StatelessWidget {
             width: 25,
             height: 25,
             child: MaterialButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pop(context);
+              },
               padding: EdgeInsets.all(2),
-              color: Colors.lightBlue,
+              color: Color(0xFF65bcbf),
               shape: CircleBorder(),
               child: Icon(
                 Icons.arrow_back_ios,
                 size: 15,
+                color: Color(0xFF0d1b46),
               ),
             ),
           ),
@@ -100,11 +88,17 @@ class MyApp extends StatelessWidget {
           child: SizedBox(
             child: FlatButton(
               // padding: EdgeInsets.all(1),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ContactUs(),
+                    ));
+              },
               child: RichText(
                 text: TextSpan(
                   text: "Contact Us",
-                  style: TextStyle(color: Colors.lightBlue),
+                  style: TextStyle(color: Color(0xFF65bcbf)),
                 ),
               ),
             ),
@@ -113,281 +107,350 @@ class MyApp extends StatelessWidget {
       ),
     ),
   );
-//formstate in request the new tag
-
+}
 }
 
-<<<<<<< HEAD
-  final String title;
-=======
 // previous Page button start
 
 class MyHomePage extends StatefulWidget {
-
   //  title = "Welcome tom my app";
   MyHomePage({Key key}) : super(key: key);
->>>>>>> ad7201275083f9d015b7d3bbbbc8ade209c338a1
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
+//  _TagsState createSecondState() => _TagsState();
+
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-<<<<<<< HEAD
-
-  Widget submitButton() {
-    return RaisedButton(
-      child: Text(
-        'Contact',
-        style: TextStyle(color: Color(0xff000000)),
-      ),
-      color: Color(0xff64bcbe),
-      shape: RoundedRectangleBorder(
-        borderRadius: new BorderRadius.circular(18.0),
-      ),
-      onPressed: () {
-        print('Contact');
-        MaterialPageRoute materialPageRoute =
-            MaterialPageRoute(builder: (BuildContext context) => ContactUs());
-        Navigator.of(context).push(materialPageRoute);
-      },
-    );
-  }
-
-  Widget mapButton() {
-    return RaisedButton(
-      child: Text(
-        'Indoor Map',
-        style: TextStyle(color: Color(0xff000000)),
-      ),
-      color: Color(0xff64bcbe),
-      shape: RoundedRectangleBorder(
-        borderRadius: new BorderRadius.circular(18.0),
-      ),
-      onPressed: () {
-        print('Go to Map');
-        MaterialPageRoute materialPageRoute =
-            MaterialPageRoute(builder: (BuildContext context) => IndoorMap());
-        Navigator.of(context).push(materialPageRoute);
-      },
-    );
-  }
-
-  Widget informationButton() {
-    return RaisedButton(
-      child: Text(
-        'About',
-        style: TextStyle(color: Color(0xff000000)),
-      ),
-      color: Color(0xff64bcbe),
-      shape: RoundedRectangleBorder(
-        borderRadius: new BorderRadius.circular(18.0),
-      ),
-      onPressed: () {
-        print('Go to Map');
-        MaterialPageRoute materialPageRoute =
-            MaterialPageRoute(builder: (BuildContext context) => InformationPage());
-        Navigator.of(context).push(materialPageRoute);
-      },
-    );
-  }
-=======
   TextEditingController _controller;
->>>>>>> ad7201275083f9d015b7d3bbbbc8ade209c338a1
-
-  Widget build(BuildContext context) {
-<<<<<<< HEAD
-   
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'TEST',
-            ),
-            submitButton(),
-            mapButton(),
-            informationButton(),
-          ],
-=======
-    return Scaffold(
-      body: Column(
-        children: <Widget>[
-          _searchBox(),
-          //_tagKeywords() show tag only ... ,
-        ],
-      ),
-//      _buildBody(context),
-    );
-  }
 
   void initState() {
     super.initState();
     _controller = TextEditingController();
-
+    _controller.addListener(_printControl);
   }
+
+  String _printControl() {
+    return _controller.text;
+  }
+
   void dispose() {
     _controller.dispose();
     super.dispose();
   }
 
-     Widget _searchBox() {
-      String user_input = "";
-      return
-        Row(
-        children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-          child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey),
-              borderRadius: BorderRadius.circular(5.0),
-            ),
-          ),
-        ),
-          Ink(
-            decoration: const ShapeDecoration(
-              color: Colors.green,
-              shape: CircleBorder(),
-            ),
-            child: IconButton(
-              icon: Icon(Icons.search ),
-//              onChanged: ( _controller ) {
-//                user_input = userSearch --> search function
-//              },
-            ),
-          ),
-        ],
-      );
-     }
-
-     Widget _dropDownButton() {
-    //auto show result
-    return DropdownButton<String>(
-      value: ,// list after search type search_input(onChanged)
-      onChanged: (String string) => setState( () => selectedItem = string ),
-       selectedItemBuilder: (BuildContext context ) {
-        return /*list after search*/items.map<Widget>( (String item ) {
-          return Text(item);
-        }).toList();
-       },
-      items: item.map( (String item ) {
-        return DropdownMenuItem<String>(
-          child: ,//List of search
-          value: item,
-        );
-      }).toList(),
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+//      appBar: AppBar(title: Text('Baby Name Votes')),
+      body: //Stack(
+          _listRoom(),
     );
-     }
-    Widget _tag(BuildContext context ) {
-      return Scaffold(
-        body: StreamBuilder(
-            stream: Firestore.instance.collection("keywordTags").snapshots(),
-          builder: (context, snapshot ) {
-              if(!snapshot.hasData ) return const Text("check on keyword syntax please");
-              return _wrapTag(context, snapshot.data.document );
-          },
->>>>>>> ad7201275083f9d015b7d3bbbbc8ade209c338a1
-        ),
-      );
-    }
+  }
 
+  DocumentSnapshot _selectedItem;
+  bool _show = true;
+
+  Widget _listRoom() {
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: StreamBuilder(
+        stream: Firestore.instance.collection("lxroom").snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) return const Text('Loading');
+//          return _buildList(context, snapshot.data.documents);
+          return _build(context, snapshot.data.documents);
+//          return snapshot.data.documents.map((data) => _build(context, data )).toList();
+        },
+      ),
+    );
+  }
+
+  Widget _listKeyword() {
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: StreamBuilder(
+        stream: Firestore.instance.collection("keyword").snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData)
+            return const Text("check on keyword syntax please");
+          return _wrapTag(context, snapshot.data.documents);
+        },
+      ),
+    );
+  }
+
+//
   Widget _wrapTag(BuildContext context, List<DocumentSnapshot> snapshot) {
+//    chil snapshot.map((data) => _showTag(context, data)).toList()
     return Wrap(
-      spacing: 8.0,
-      runSpacing: 4.0,
+      alignment: WrapAlignment.spaceBetween,
+      direction: Axis.horizontal,
+      spacing: 5.0,
+      runSpacing: 2.0,
       children: snapshot.map((data) => _showTag(context, data)).toList(),
     );
   }
 
-     Widget _showTag( BuildContext context, DocumentSnapshot data ) {
-        final tag = Tags.fromSnapshot(data);
-        return
-          Material(
-            color: Colors.deepPurple,
-            child: FlatButton(
-              child: Text(
-                tag.keywordName,
-                style: TextStyle(color: Colors.white ),
-              ),
-          ),
-        );
-     }
-
-  Widget _buildBody(BuildContext context) {
-    return Scaffold(
-      body: StreamBuilder(
-        stream: Firestore.instance.collection("lxroom").snapshots(),
-        builder: (context, snapshot) {
-          if(!snapshot.hasData) return const Text('Loading');
-          return _buildList(context, snapshot.data.documents);
+  Widget _showTag(BuildContext context, DocumentSnapshot data) {
+    final tag = GetTags.fromSnapshot(data);
+    return Material(
+      color: Colors.transparent,
+      child: RaisedButton(
+        color: Colors.deepPurple,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18.0),
+        ),
+        child: Text(
+          tag.keywordName,
+          style: TextStyle(color: Colors.white),
+        ),
+        onPressed: () {
+          //navigate to room page
         },
       ),
-<<<<<<< HEAD
-      floatingActionButton: FloatingActionButton(
-        onPressed: null,
-        tooltip: 'back',
-        child: Icon(Icons.arrow_back),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-=======
->>>>>>> ad7201275083f9d015b7d3bbbbc8ade209c338a1
     );
   }
-  Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
-    return ListView(
-      padding: const EdgeInsets.only(top: 20.0),
-      children: snapshot.map((data) => _buildListItem(context, data)).toList(),
-    );
-  }
-  Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
-    final users = Users.fromSnapshot(data);
 
-    return Padding(
-      key: ValueKey(users.name),
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey),
-          borderRadius: BorderRadius.circular(5.0),
+  Widget _build(BuildContext context, List<DocumentSnapshot> snapshot) {
+//    List<DataFromDb> list = DataFromDb.fromSnapshot(snapshot) ;
+//  snapshot.map( (data ) => );
+
+//  final list = DataFromDb.fromSnapshot(snapshot) ;
+//    List<DataFromDb> list = DataFromDb.fromSnapshot(snapshot.map( (data) => )).toList();
+    return Scaffold(
+      backgroundColor: Colors.transparent,
+      body: SingleChildScrollView(
+        padding: EdgeInsets.fromLTRB(10.0, 20.0, 5.0, 5.0),
+        child: Column(
+          children: <Widget>[
+            const SizedBox(
+              height: 16,
+            ),
+            if (_show)
+              SearchWidget<DocumentSnapshot>(
+                dataList: snapshot,
+                hideSearchBoxWhenItemSelected: false,
+                listContainerHeight: MediaQuery.of(context).size.height / 4,
+                queryBuilder: (query, list) {
+                  return list
+                      .where((item) => item["roomName"]
+                          .toLowerCase()
+                          .contains((query.toLowerCase())))
+                      .toList();
+                },
+                popupListItemBuilder: (item) {
+                  return PopupListItemWidget(item);
+                },
+                selectedItemBuilder: (_selectedItem, deleteSelectedItem) {
+                  return SelectedItemWidget(_selectedItem, deleteSelectedItem);
+                },
+                // widget customization
+                noItemsFoundWidget: NoItemsFound(),
+                textFieldBuilder: (controller, focusNode) {
+                  return MyTextField(controller, focusNode);
+                },
+                onItemSelected: (item) {
+//                    if( item["roomName"].equals("LX1200A")) {
+                  setState(() {
+//                      _selectedItem = item;
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Background()),
+                    );
+                  });
+                },
+              ),
+            const SizedBox(
+              height: 32,
+            ),
+            SizedBox(
+              height: 300,
+              child: _listKeyword(),
+            ),
+//
+//            Text(
+//              "${_selectedItem != null ? _selectedItem["roomName"] : "" "No Item selected "}",
+//            ),
+          ],
         ),
-        child: ListTile(
-          title: Text(users.name),
-            trailing: Text(users.email.toString()),
-          onTap: () => print(users),
+      ),
+    );
+  }
+}
+
+class SelectedItemWidget extends StatelessWidget {
+  const SelectedItemWidget(this.selectedItem, this.deleteSelectedItem);
+
+  final DocumentSnapshot selectedItem;
+  final VoidCallback deleteSelectedItem;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        vertical: 2,
+        horizontal: 4,
+      ),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(
+                left: 16,
+                right: 16,
+                top: 8,
+                bottom: 8,
+              ),
+              child: Text(
+                selectedItem["roomName"],
+                style: const TextStyle(fontSize: 14),
+              ),
+            ),
+          ),
+          IconButton(
+            icon: Icon(Icons.delete_outline, size: 22),
+            color: Colors.grey[700],
+            onPressed: deleteSelectedItem,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class MyTextField extends StatelessWidget {
+  const MyTextField(this.controller, this.focusNode);
+
+  final TextEditingController controller;
+  final FocusNode focusNode;
+
+  Widget roomNameTag() {
+    return new Container(
+      height: 50.0,
+      width: 250.0,
+      margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+      child: TextField(
+        controller: controller,
+        focusNode: focusNode,
+        enabled: true,
+        textInputAction: TextInputAction.newline,
+        keyboardType: TextInputType.text,
+        maxLines: null,
+        style: new TextStyle(
+          color: Color(0xff214C7D),
+        ),
+        decoration: new InputDecoration(
+          fillColor: Color(0xff64bcbe).withOpacity(0.6),
+          filled: true,
+          hintText: 'Type room/activity for navigation..',
+          contentPadding: EdgeInsets.all(15.0),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20.0),
+              borderSide: BorderSide(color: Color(00000000))),
         ),
       ),
     );
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10.0),
+      child: Wrap(
+        direction: Axis.horizontal,
+        alignment: WrapAlignment.spaceAround,
+        children: <Widget>[
+          roomNameTag(),
+          ClipOval(
+            child: Material(
+              color: Color(0xFF65bcbf), // button color
+              child: InkWell(
+                splashColor: Colors.green, // inkwell color
+                child:
+                    SizedBox(width: 55, height: 55, child: Icon(Icons.search)),
+                onTap: () {},
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+  }
 }
-class SearchFunction {
-  String userInput;
-  String tagKeyword;
 
-  //expression /*?()[]
-
-  //search userInput --> DB --> REcord Class
-
-// record result --> $variable --> record class
-
+class NoItemsFound extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        Icon(
+          Icons.folder_open,
+          size: 24,
+          color: Colors.grey[900].withOpacity(0.7),
+        ),
+        const SizedBox(width: 10),
+        Text(
+          "No Items Found",
+          style: TextStyle(
+            fontSize: 16,
+            color: Colors.grey[900].withOpacity(0.7),
+          ),
+        ),
+      ],
+    );
+  }
 }
-class Tags {
-  final String keywordName;
-  final String roomId;
+
+class PopupListItemWidget extends StatelessWidget {
+  const PopupListItemWidget(this.item);
+
+  final DocumentSnapshot item;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      color: Colors.transparent,
+      child: ListTile(
+        leading: Text(item['roomName'], style: const TextStyle(fontSize: 16)),
+        trailing: Text(item["distance"] + " away ",
+            style: const TextStyle(fontSize: 16)),
+      ),
+    );
+  }
+}
+
+class DataFromDb {
+  String roomId;
+  String keywordName;
 
   final DocumentReference reference;
 
-  Tags.fromMap(Map<String, dynamic> map, {this.reference})
+  DataFromDb.fromMap(Map<String, dynamic> map, {this.reference})
       : assert(map['keywordName'] != null),
         assert(map['roomId'] != null),
         keywordName = map['keywordName'],
         roomId = map['roomId'];
 
-  Tags.fromSnapshot(DocumentSnapshot snapshot)
+  DataFromDb.fromSnapshot(DocumentSnapshot snapshot)
+      : this.fromMap(snapshot.data, reference: snapshot.reference);
+}
+
+class GetTags {
+  final String keywordName;
+  final String roomId;
+
+  final DocumentReference reference;
+
+  GetTags.fromMap(Map<String, dynamic> map, {this.reference})
+      : assert(map['keywordName'] != null),
+        assert(map['roomId'] != null),
+        keywordName = map['keywordName'],
+        roomId = map['roomId'];
+
+  GetTags.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data, reference: snapshot.reference);
 
   @override
@@ -413,3 +476,4 @@ class Users {
   @override
   String toString() => "Record<$name:$email>";
 }
+

@@ -35,10 +35,7 @@ packages:
       name: charcode
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
     version: "1.1.3"
-=======
-    version: "1.1.2"
   cloud_firestore:
     dependency: "direct main"
     description:
@@ -46,7 +43,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.12.11"
->>>>>>> ad7201275083f9d015b7d3bbbbc8ade209c338a1
   collection:
     dependency: transitive
     description:
@@ -129,6 +125,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.7.0"
+  flutter_tags:
+    dependency: "direct main"
+    description:
+      name: flutter_tags
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.4"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -139,8 +142,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-<<<<<<< HEAD
-=======
   http:
     dependency: transitive
     description:
@@ -155,18 +156,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.4"
->>>>>>> ad7201275083f9d015b7d3bbbbc8ade209c338a1
   image:
     dependency: transitive
     description:
       name: image
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
     version: "2.1.12"
-=======
-    version: "2.1.4"
->>>>>>> ad7201275083f9d015b7d3bbbbc8ade209c338a1
   js:
     dependency: transitive
     description:
@@ -195,6 +191,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.6.4"
+  pedantic:
+    dependency: transitive
+    description:
+      name: pedantic
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.8.0+1"
   petitparser:
     dependency: transitive
     description:
@@ -215,16 +218,6 @@ packages:
       name: plugin_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
-=======
-    version: "2.4.0"
-  plugin_platform_interface:
-    dependency: transitive
-    description:
-      name: plugin_platform_interface
-      url: "https://pub.dartlang.org"
-    source: hosted
->>>>>>> ad7201275083f9d015b7d3bbbbc8ade209c338a1
     version: "1.0.2"
   quiver:
     dependency: transitive
@@ -232,10 +225,7 @@ packages:
       name: quiver
       url: "https://pub.dartlang.org"
     source: hosted
-<<<<<<< HEAD
     version: "2.1.3"
-=======
-    version: "2.0.5"
   search_widget:
     dependency: "direct main"
     description:
@@ -243,7 +233,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
->>>>>>> ad7201275083f9d015b7d3bbbbc8ade209c338a1
   sky_engine:
     dependency: transitive
     description: flutter
@@ -304,7 +293,7 @@ packages:
       name: url_launcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.4.5"
+    version: "5.4.7"
   url_launcher_macos:
     dependency: transitive
     description:
@@ -318,14 +307,14 @@ packages:
       name: url_launcher_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.6"
+    version: "1.0.7"
   url_launcher_web:
     dependency: transitive
     description:
       name: url_launcher_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.1+4"
+    version: "0.1.1+5"
   vector_math:
     dependency: transitive
     description:
@@ -348,10 +337,5 @@ packages:
     source: hosted
     version: "1.3.1"
 sdks:
-<<<<<<< HEAD
-  dart: ">=2.6.0 <3.0.0"
-  flutter: ">=1.12.13+hotfix.5 <2.0.0"
-=======
   dart: ">=2.7.0 <3.0.0"
-  flutter: ">=1.12.13+hotfix.4 <2.0.0"
->>>>>>> ad7201275083f9d015b7d3bbbbc8ade209c338a1
+  flutter: ">=1.12.13+hotfix.5 <2.0.0"

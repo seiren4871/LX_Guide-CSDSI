@@ -1,6 +1,6 @@
-# lx_guide
+# lxguide
 
-A new Flutter project.
+A new Flutter application.
 
 ## Getting Started
 

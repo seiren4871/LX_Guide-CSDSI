@@ -1,0 +1,36 @@
+//  Widget _buildBody(BuildContext context) {
+//    return Scaffold(
+//      body: StreamBuilder(
+//        stream: Firestore.instance.collection("lxroom").snapshots(),
+//        builder: (context, snapshot) {
+//          if(!snapshot.hasData) return const Text('Loading');
+//          return _buildList(context, snapshot.data.documents);
+//        },
+//      ),
+//    );
+//  }
+//  Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
+//    return ListView(
+//      padding: const EdgeInsets.only(top: 20.0),
+//      children: snapshot.map((data) => _buildListItem(context, data)).toList(),
+//    );
+//  }
+//  Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
+//    final users = Users.fromSnapshot(data);
+//
+//    return Padding(
+//      key: ValueKey(users.name),
+//      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+//      child: Container(
+//        decoration: BoxDecoration(
+//          border: Border.all(color: Colors.grey),
+//          borderRadius: BorderRadius.circular(5.0),
+//        ),
+//        child: ListTile(
+//          title: Text(users.name),
+//            trailing: Text(users.email.toString()),
+//          onTap: () => print(users),
+//        ),
+//      ),
+//    );
+//  }

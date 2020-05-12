@@ -1,0 +1,54 @@
+class Tags {
+  final String keywordName;
+  final String roomId;
+
+  final DocumentReference reference;
+
+  Tags.fromMap(Map<String, dynamic> map, {this.reference})
+      : assert(map['keywordName'] != null),
+        assert(map['roomId'] != null),
+        keywordName = map['keywordName'],
+        roomId = map['roomId'];
+
+  Tags.fromSnapshot(DocumentSnapshot snapshot)
+      : this.fromMap(snapshot.data, reference: snapshot.reference);
+
+  @override
+  String toString() => "Record<$keywordName>";
+
+//assert roomId(lxRoom) and roomId(keyword)
+}
+
+Widget _tag(BuildContext context ) {
+  return Scaffold(
+    body: StreamBuilder(
+      stream: Firestore.instance.collection("keywordTags").snapshots(),
+      builder: (context, snapshot ) {
+        if(!snapshot.hasData ) return const Text("check on keyword syntax please");
+        return _wrapTag(context, snapshot.data.document );
+      },
+    ),
+  );
+}
+
+Widget _wrapTag(BuildContext context, List<DocumentSnapshot> snapshot) {
+  return Wrap(
+    spacing: 8.0,
+    runSpacing: 4.0,
+    children: snapshot.map((data) => _showTag(context, data)).toList(),
+  );
+}
+
+Widget _showTag( BuildContext context, DocumentSnapshot data ) {
+  final tag = Tags.fromSnapshot(data);
+  return
+    Material(
+      color: Colors.deepPurple,
+      child: FlatButton(
+        child: Text(
+          tag.keywordName,
+          style: TextStyle(color: Colors.white ),
+        ),
+      ),
+    );
+}
