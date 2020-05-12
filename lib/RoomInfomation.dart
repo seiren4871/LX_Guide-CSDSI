@@ -2,48 +2,51 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:lxguide/main.dart';
+import 'main.dart';
 import 'contact.dart';
-import 'package:lxguide/drawer.dart';
+import 'drawer.dart';
 import 'keyword.dart';
-import 'package:lxguide/main_IndoorMap.dart';
+import 'main_IndoorMap.dart';
+import 'theme.dart';
 //Color.fromRGBO(238, 230, 227, 1)
 
 class Background extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: Color.fromRGBO(237, 229, 227, 1),
+        backgroundColor: Color(0xffece3e2),
         bottomNavigationBar: bottomNavigation(context),
         drawer: AppDrawer(),
         appBar: AppBar(
           backgroundColor: Color(0xFFf8777c),
+          title: Text("Escape Room"),
         ),
         body: Center(
           child: Padding(
-            padding: EdgeInsets.all(30.0),
+            padding: EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 10.0),
             child: SingleChildScrollView(
               child: Column(
 //              direction: Axis.vertical,
                 children: <Widget>[
                   Container(
 //                  color: Colors.red,
-                    child: Text(
-                        "ESCAPE ROOM",
+                    child: Text("ESCAPE ROOM",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 30,
-                            color: Colors.pink)
-                    ),
+                            color: Color(0xFFf8777c))),
                   ),
 //                SingleChildScrollView(
                   Padding(
-                    padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
+                    padding:
+                        EdgeInsets.symmetric(vertical: 5.0, horizontal: 2.0),
 //                height:450,
 //                width: 320,
                     child: Container(
+                      padding: EdgeInsets.fromLTRB(10.0, 15.0, 10.0, 40.0),
+                      margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 5.0),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.7),
+                        color: Colors.white.withOpacity(0.6),
                         shape: BoxShape.rectangle,
                         borderRadius: BorderRadius.circular(25.0),
                       ),
@@ -60,32 +63,29 @@ class Background extends StatelessWidget {
 //                        ),
                           Image(
                             height: 200,
-                            image: AssetImage("assets/issoria-team-careers.png"),
+                            image:
+                                AssetImage("assets/issoria-team-careers.png"),
                             fit: BoxFit.fitWidth,
                           ),
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 80,
-                                vertical: 8),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 8.0, vertical: 5.0),
                             child: SizedBox(
-
-                              child: Text(
-                                  "Room Information",
+                              child: Text("Room Information",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 15,
-                                      color: Colors.black)
-                              ),
+                                      fontSize: 16,
+                                      color: Colors.black,)),
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 65,
-                                vertical: 5),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 0, vertical: 5.0),
 //                             margin: EdgeInsets.fromLTRB(2, 0, 2, 0),
 //                              padding: const EdgeInsets.all(16.0),
                             child: Container(
-                              child:
-                              Text(
-                                "   Let's escape from this room !",
+                              child: Text(
+                                "Let's escape from this room !",
                                 style: TextStyle(
                                     fontWeight: FontWeight.normal,
                                     fontSize: 13,
@@ -95,8 +95,8 @@ class Background extends StatelessWidget {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 50,
-                                vertical: 5),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 5),
                             child: SizedBox(
                               height: 45,
 //                          color: Colors.blue,
@@ -104,7 +104,8 @@ class Background extends StatelessWidget {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 85 , vertical: 10),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 10),
                             child: SizedBox(
                               height: 30,
                               child: RoomInfomation(),
@@ -114,34 +115,37 @@ class Background extends StatelessWidget {
                           SizedBox(
                             child: GestureDetector(
                               onTap: () {
-                                Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) => IndoorMap()),);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => IndoorMap()),
+                                );
                               },
-                              child: Image.asset('assets/Icon-MapInRoomPage.png',
-                                width: 50,
-                                height: 50,),
+                              child:
+                              Image.asset(
+                                'assets/Icon-MapInRoomPage.png',
+                                width: 70,
+                                height: 70,
+                              ),
                             ),
                           ),
                         ],
                       ),
                     ),
                   ),
-
                 ],
               ),
             ),
-
-          ),
           ),
         ),
-
+      ),
     );
   }
 
   Widget bottomNavigation(BuildContext context) {
     return BottomAppBar(
       // alignment: Alignment.bottomCenter,
-      color: Colors.transparent,
+      color: Color(0xFF0d1b46),
       child: Container(
         child: ListTile(
           leading: Container(
@@ -153,11 +157,12 @@ class Background extends StatelessWidget {
                   Navigator.pop(context);
                 },
                 padding: EdgeInsets.all(2),
-                color: Colors.lightBlue,
+                color: Color(0xFF65bcbf),
                 shape: CircleBorder(),
                 child: Icon(
                   Icons.arrow_back_ios,
                   size: 15,
+                  color: Color(0xFF0d1b46),
                 ),
               ),
             ),
@@ -167,13 +172,16 @@ class Background extends StatelessWidget {
               child: FlatButton(
                 // padding: EdgeInsets.all(1),
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => ContactUs(),));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ContactUs(),
+                      ));
                 },
                 child: RichText(
                   text: TextSpan(
                     text: "Contact Us",
-                    style: TextStyle(color: Colors.lightBlue),
+                    style: TextStyle(color: Color(0xFF65bcbf)),
                   ),
                 ),
               ),
@@ -186,7 +194,6 @@ class Background extends StatelessWidget {
 }
 
 class RoomInfomation extends StatefulWidget {
-
   //  title = "Welcome tom my app";
   RoomInfomation({Key key}) : super(key: key);
 
@@ -197,12 +204,10 @@ class RoomInfomation extends StatefulWidget {
 }
 
 class _RoomInfomationState extends State<RoomInfomation> {
-
-  Widget build(BuildContext context ) {
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: _createTag(),
-
     );
   }
 
@@ -215,17 +220,20 @@ class _RoomInfomationState extends State<RoomInfomation> {
     _controller = TextEditingController();
     _controller.addListener(_printControl);
   }
+
   String _printControl() {
     return _controller.text;
   }
+
   void dispose() {
     _controller.dispose();
     super.dispose();
   }
-  void createRecord(String key ) async {
 
-    await databaseReference.collection("keyword")
-        .document("key$count" )
+  void createRecord(String key) async {
+    await databaseReference
+        .collection("keyword")
+        .document("key$count")
         .setData({
       'keywordName': "$key",
       'roomId': "lx1200A",
@@ -250,7 +258,7 @@ class _RoomInfomationState extends State<RoomInfomation> {
         return AlertDialog(
           title: Row(
             children: <Widget>[
-              Text('Create Tag'),
+              Text('Suggest Tag'),
               Icon(Icons.add),
             ],
           ),
@@ -268,9 +276,8 @@ class _RoomInfomationState extends State<RoomInfomation> {
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Theme
-                          .of(context)
-                          .primaryColor),
+                      borderSide:
+                          BorderSide(color: color300),
                     ),
                     border: InputBorder.none,
                     hintText: "Type your keyword",
@@ -293,8 +300,10 @@ class _RoomInfomationState extends State<RoomInfomation> {
           ),
           actions: <Widget>[
             FlatButton(
-              child: Text('CANCLE',
-                style: TextStyle(color: Colors.red ),),
+              child: Text(
+                'CANCLE',
+                style: TextStyle(color: Colors.red),
+              ),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -302,25 +311,23 @@ class _RoomInfomationState extends State<RoomInfomation> {
             FlatButton(
               child: Text('SEND REQUEST'),
               onPressed: () {
-                createRecord(userInput );
+                createRecord(userInput);
               },
             ),
-
           ],
         );
       },
     );
   }
+
   Widget _createTag() {
     return Material(
       child: FlatButton.icon(
         color: Colors.white,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(18.0),
-            side: BorderSide(color: Colors.indigo)
-        ),
-        label:
-        Text(
+            side: BorderSide(color: Colors.indigo)),
+        label: Text(
           "Suggest Tag",
           style: TextStyle(color: Colors.indigo),
         ),
@@ -347,7 +354,6 @@ class Room {
 
   Room.fromSnapshot(DocumentSnapshot snapshot)
       : this.fromMap(snapshot.data, reference: snapshot.reference);
-
 }
 
 class GetTags {
@@ -358,7 +364,7 @@ class GetTags {
 
   GetTags.fromMap(Map<String, dynamic> map, {this.reference})
       : assert(map['keywordName'] != null),
-        assert(map['roomId'] != null ),
+        assert(map['roomId'] != null),
         keywordName = map['keywordName'],
         roomId = map['roomId'];
 

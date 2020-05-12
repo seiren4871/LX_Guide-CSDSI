@@ -33,7 +33,7 @@ class AppDrawer extends StatelessWidget {
           _createDrawerItem(
             icon: Icons.language,
             text: 'Switch Language',
-            onTap: null,
+            onTap: null
           ),
         ],
       ),

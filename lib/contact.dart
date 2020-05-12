@@ -101,7 +101,7 @@ class _ContactUsState extends State<ContactUs> {
           Navigator.of(context).push(materialPageRoute);
         },
         tooltip: 'back',
-        child: Icon(Icons.arrow_back),
+        child: Icon(Icons.arrow_back_ios),
         foregroundColor: Color(0xFF0e1b47),
         backgroundColor: Color(0xFF66bcc0),
         mini: true,
