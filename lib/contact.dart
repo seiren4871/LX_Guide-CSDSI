@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'main.dart';
 import 'drawer.dart';
 
@@ -9,35 +12,6 @@ class ContactUs extends StatefulWidget {
 
 enum ConfirmAction { CANCEL, ACCEPT }
 
-Future<ConfirmAction> _asyncConfirmDialog(BuildContext context) async {
-  return showDialog<ConfirmAction>(
-    context: context,
-    barrierDismissible: false, // user must tap button for close dialog!
-    builder: (BuildContext context) {
-      return AlertDialog(
-        title: Text('Are you sure?'),
-        content: const Text('This will not back to fix it again.'),
-        actions: <Widget>[
-          FlatButton(
-            child: const Text('CANCEL'),
-            onPressed: () {
-              Navigator.of(context).pop(ConfirmAction.CANCEL);
-            },
-          ),
-          FlatButton(
-            child: const Text('ACCEPT'),
-            onPressed: () {
-              Navigator.of(context).pop(ConfirmAction.ACCEPT);
-              MaterialPageRoute materialPageRoute =
-              MaterialPageRoute(builder: (BuildContext context) => SearchRoom());
-              Navigator.of(context).push(materialPageRoute);
-            },
-          )
-        ],
-      );
-    },
-  );
-}
 
 class _ContactUsState extends State<ContactUs> {
   @override
@@ -126,6 +100,7 @@ class _ContactUsState extends State<ContactUs> {
     );
   }
 
+
   final backgroundImage = new Container(
     width: double.infinity,
     decoration: BoxDecoration(
@@ -136,7 +111,40 @@ class _ContactUsState extends State<ContactUs> {
     ),
   );
 
+  TextEditingController _controllerMessenger;
+  TextEditingController _controllerName;
+  TextEditingController _controllerEmail;
+
+  void initState() {
+    super.initState();
+    _controllerMessenger = TextEditingController();
+    _controllerMessenger.addListener(_printControlMessenger);
+    _controllerName = TextEditingController();
+    _controllerName.addListener(_printControlName);
+    _controllerEmail = TextEditingController();
+    _controllerEmail.addListener(_printControlEmail);
+  }
+  String _printControlMessenger() {
+    return _controllerMessenger.text;
+  }
+  String _printControlName() {
+    return _controllerName.text;
+  }
+  String _printControlEmail() {
+    return _controllerEmail.text;
+  }
+  void disposeMessenger() {
+    _controllerMessenger.dispose();
+    super.dispose();
+    _controllerName.dispose();
+    _controllerEmail.dispose();
+
+  }
+
+//
+  String message = "";
   Widget messageTag() {
+
     return new Container(
       height: 100.0,
       margin: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),
@@ -145,6 +153,7 @@ class _ContactUsState extends State<ContactUs> {
           maxHeight: 200.0,
         ),
         child: TextField(
+          controller: _controllerMessenger,
           enabled: true,
           textInputAction: TextInputAction.newline,
           keyboardType: TextInputType.multiline,
@@ -161,16 +170,24 @@ class _ContactUsState extends State<ContactUs> {
                 borderRadius: BorderRadius.circular(20.0),
                 borderSide: BorderSide(color: Color(00000000))),
           ),
+          onChanged: (String text ) {
+            setState(() {
+              print( _controllerMessenger.text );
+              message = _controllerMessenger.text;
+            });
+          },
         ),
       ),
     );
   }
 
+String name = "";
   Widget nameTag() {
     return new Container(
       height: 50.0,
       margin: EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
       child: TextField(
+        controller: _controllerName,
         enabled: true,
         textInputAction: TextInputAction.newline,
         keyboardType: TextInputType.text,
@@ -187,15 +204,24 @@ class _ContactUsState extends State<ContactUs> {
               borderRadius: BorderRadius.circular(20.0),
               borderSide: BorderSide(color: Color(00000000))),
         ),
+        onChanged: (String text ) {
+          setState(() {
+            print(_controllerName.text);
+            name = _controllerName.text;
+//            _controller.dispose();
+          });
+        },
       ),
     );
   }
-
+String email = "";
   Widget emailTag() {
     return new Container(
+
       height: 50.0,
       margin: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),
       child: TextField(
+        controller: _controllerEmail,
         enabled: true,
         textInputAction: TextInputAction.newline,
         keyboardType: TextInputType.emailAddress,
@@ -212,7 +238,60 @@ class _ContactUsState extends State<ContactUs> {
               borderRadius: BorderRadius.circular(20.0),
               borderSide: BorderSide(color: Color(00000000))),
         ),
+        onChanged: (String text ) {
+          setState(() {
+            print(_controllerEmail.text );
+            email = _controllerEmail.text;
+          });
+        },
       ),
     );
   }
+
+  Future<ConfirmAction> _asyncConfirmDialog(BuildContext context) async {
+    return showDialog<ConfirmAction>(
+      context: context,
+      barrierDismissible: false, // user must tap button for close dialog!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Are you sure?'),
+          content: const Text('This will not back to fix it again.'),
+          actions: <Widget>[
+            FlatButton(
+              child: const Text('CANCEL'),
+              onPressed: () {
+                Navigator.of(context).pop(ConfirmAction.CANCEL);
+              },
+            ),
+            FlatButton(
+              child: const Text('ACCEPT'),
+              onPressed: () {
+                createContact( name, email , message );
+                Navigator.of(context).pop(ConfirmAction.ACCEPT);
+                MaterialPageRoute materialPageRoute =
+                MaterialPageRoute(builder: (BuildContext context) => SearchRoom());
+                Navigator.of(context).push(materialPageRoute);
+              },
+            )
+          ],
+        );
+      },
+    );
+  }
+  final databaseReference = Firestore.instance;
+  int count;
+
+  void createContact(String name, email, message ) async {
+
+    await databaseReference.collection("contactUs")
+//        .document("key$count" )
+        .add({
+      'name': name,
+      'messeage': message,
+      'email': email,
+    });
+
+    print(" message: $message, name: $name, email: $email");
+  }
 }
+

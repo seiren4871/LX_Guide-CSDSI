@@ -209,6 +209,7 @@ class _RoomInfomationState extends State<RoomInfomation> {
   final databaseReference = Firestore.instance;
   int count = 0;
   String userInput = "";
+
   TextEditingController _controller;
   void initState() {
     super.initState();
@@ -225,14 +226,13 @@ class _RoomInfomationState extends State<RoomInfomation> {
   void createRecord(String key ) async {
 
     await databaseReference.collection("keyword")
-        .document("key$count" )
-        .setData({
+        .add({
       'keywordName': "$key",
       'roomId': "lx1200A",
       'distacnce': "null",
     });
-    count++;
-    print(count);
+//    count++;
+    print("keyword: $key have been added successfully !");
   }
 // void getRoomName(String ) async {
 //
@@ -303,6 +303,7 @@ class _RoomInfomationState extends State<RoomInfomation> {
               child: Text('SEND REQUEST'),
               onPressed: () {
                 createRecord(userInput );
+                Navigator.of(context).pop();
               },
             ),
 

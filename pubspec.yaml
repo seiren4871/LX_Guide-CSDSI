@@ -21,32 +21,33 @@ dependencies:
     sdk: flutter
   firebase_core: ^0.4.0+9
   flutter_tags: 0.2.4
-
-    # Add the dependency for the FlutterFire plugin for Google Analytics
   firebase_analytics: ^5.0.2
-
-    # Add the dependencies for any other Firebase products you want to use in your app
-    # For example, to use Firebase Authentication and Cloud Firestore
   firebase_auth: ^0.14.0+5
   cloud_firestore: ^0.12.9+5
   search_widget: ^1.0.2
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_icons: "^0.7.3"
+
+flutter_icons:
+  android: "ic_ap"
+  ios: true
+  image_path: "assets/icon/ic_ap.png"
 
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
+
+
 flutter:
   uses-material-design: true
   assets:
+    - assets/icon/ic_ap.png
     - assets/background.jpg
     - assets/issoria-team-careers.png
     - assets/Icon-MapInRoomPage.png
@@ -61,7 +62,7 @@ flutter:
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
 
-  # To add custom fonts to your application, add a fonts section here,
+  # To add custom fonts to your application, add a fonts section here,.
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
