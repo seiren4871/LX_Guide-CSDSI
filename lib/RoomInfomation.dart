@@ -8,7 +8,7 @@ import 'drawer.dart';
 import 'keyword.dart';
 import 'main_IndoorMap.dart';
 import 'theme.dart';
-//Color.fromRGBO(238, 230, 227, 1)
+
 
 class Background extends StatelessWidget {
   Widget build(BuildContext context) {
@@ -230,6 +230,7 @@ class _RoomInfomationState extends State<RoomInfomation> {
     _controller.dispose();
     super.dispose();
   }
+  void createRecord(String key ) async {
 
     await databaseReference.collection("keyword")
         .add({

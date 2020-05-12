@@ -71,7 +71,7 @@ class SearchRoom extends StatelessWidget {
             height: 25,
             child: MaterialButton(
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(builder: (context) => InformationPage(), ));
               },
               padding: EdgeInsets.all(2),
               color: Color(0xFF65bcbf),
