@@ -3,9 +3,10 @@ import 'dart:math';
 import 'dart:ui' as ui;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:lx_guide/theme.dart';
+import 'theme.dart';
 import 'drawer.dart';
 import 'main.dart';
+import 'contact.dart';
 
 class IndoorMap extends StatefulWidget {
   @override
@@ -48,7 +49,9 @@ class _ImageViewportState extends State<ImageViewport> {
   }
 
   void _updateActualImageDimensions() {
-    _actualImageSize = Size((_image.width / window.devicePixelRatio) * _zoomLevel, (_image.height / ui.window.devicePixelRatio) * _zoomLevel);
+    _actualImageSize = Size(
+        (_image.width / window.devicePixelRatio) * _zoomLevel,
+        (_image.height / ui.window.devicePixelRatio) * _zoomLevel);
   }
 
   @override
@@ -61,8 +64,9 @@ class _ImageViewportState extends State<ImageViewport> {
     _objects = widget.objects;
   }
 
-  void _resolveImageProvider(){
-    ImageStream stream = _imageProvider.resolve(createLocalImageConfiguration(context));
+  void _resolveImageProvider() {
+    ImageStream stream =
+        _imageProvider.resolve(createLocalImageConfiguration(context));
     stream.addListener(ImageStreamListener((info, bool synchronousCall) {
       _image = info.image;
       _resolved = true;
@@ -80,12 +84,14 @@ class _ImageViewportState extends State<ImageViewport> {
   @override
   void didUpdateWidget(ImageViewport oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if(widget.imageProvider != _imageProvider) {
+    if (widget.imageProvider != _imageProvider) {
       _imageProvider = widget.imageProvider;
       _resolveImageProvider();
     }
-    double normalizedDx = _maxHorizontalDelta == 0 ? 0 : _centerOffset.dx / _maxHorizontalDelta;
-    double normalizedDy = _maxVerticalDelta == 0 ? 0 : _centerOffset.dy / _maxVerticalDelta;
+    double normalizedDx =
+        _maxHorizontalDelta == 0 ? 0 : _centerOffset.dx / _maxHorizontalDelta;
+    double normalizedDy =
+        _maxVerticalDelta == 0 ? 0 : _centerOffset.dy / _maxVerticalDelta;
     _normalized = Offset(normalizedDx, normalizedDy);
     _denormalize = true;
     _zoomLevel = widget.zoomLevel;
@@ -117,8 +123,10 @@ class _ImageViewportState extends State<ImageViewport> {
   @override
   Widget build(BuildContext context) {
     void handleDrag(DragUpdateDetails updateDetails) {
-      Offset newOffset = _centerOffset.translate(-updateDetails.delta.dx, -updateDetails.delta.dy);
-      if (abs(newOffset.dx) <= _maxHorizontalDelta && abs(newOffset.dy) <= _maxVerticalDelta)
+      Offset newOffset = _centerOffset.translate(
+          -updateDetails.delta.dx, -updateDetails.delta.dy);
+      if (abs(newOffset.dx) <= _maxHorizontalDelta &&
+          abs(newOffset.dy) <= _maxVerticalDelta)
         setState(() {
           _centerOffset = newOffset;
         });
@@ -136,43 +144,53 @@ class _ImageViewportState extends State<ImageViewport> {
       return _objects
           .map(
             (MapObject object) => Positioned(
-                  left: _globaltoLocalOffset(object.offset).dx - (object.size == null ? 0 : (object.size.width * _zoomLevel) / 2),
-                  top: _globaltoLocalOffset(object.offset).dy - (object.size == null ? 0 : (object.size.height * _zoomLevel) / 2),
-                  child: GestureDetector(
-                    onTapUp: (TapUpDetails details) {
-                      MapObject info;
-                      info = MapObject(
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                            width: 1,
-                          )),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: <Widget>[
-                              Text("Close me"),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              IconButton(
-                                icon: Icon(Icons.close),
-                                onPressed: () => removeMapObject(info),
-                              ),
-                            ],
+              left: _globaltoLocalOffset(object.offset).dx -
+                  (object.size == null
+                      ? 0
+                      : (object.size.width * _zoomLevel) / 2),
+              top: _globaltoLocalOffset(object.offset).dy -
+                  (object.size == null
+                      ? 0
+                      : (object.size.height * _zoomLevel) / 2),
+              child: GestureDetector(
+                onTapUp: (TapUpDetails details) {
+                  MapObject info;
+                  info = MapObject(
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                        width: 1,
+                      )),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Text("Close me"),
+                          SizedBox(
+                            width: 5,
                           ),
-                        ),
-                        offset: object.offset,
-                        size: null,
-                      );
-                      addMapObject(info);
-                    },
-                    child: Container(
-                      width: object.size == null ? null : object.size.width * _zoomLevel,
-                      height: object.size == null ? null : object.size.height * _zoomLevel,
-                      child: object.child,
+                          IconButton(
+                            icon: Icon(Icons.close),
+                            onPressed: () => removeMapObject(info),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
+                    offset: object.offset,
+                    size: null,
+                  );
+                  addMapObject(info);
+                },
+                child: Container(
+                  width: object.size == null
+                      ? null
+                      : object.size.width * _zoomLevel,
+                  height: object.size == null
+                      ? null
+                      : object.size.height * _zoomLevel,
+                  child: object.child,
                 ),
+              ),
+            ),
           )
           .toList();
     }
@@ -180,23 +198,33 @@ class _ImageViewportState extends State<ImageViewport> {
     return _resolved
         ? LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
-              _viewportSize = Size(min(constraints.maxWidth, _actualImageSize.width), min(constraints.maxHeight, _actualImageSize.height));
-              _maxHorizontalDelta = (_actualImageSize.width - _viewportSize.width) / 2;
-              _maxVerticalDelta = (_actualImageSize.height - _viewportSize.height) / 2;
-              bool reactOnHorizontalDrag = _maxHorizontalDelta > _maxVerticalDelta;
-              bool reactOnPan = (_maxHorizontalDelta > 0 && _maxVerticalDelta > 0);
+              _viewportSize = Size(
+                  min(constraints.maxWidth, _actualImageSize.width),
+                  min(constraints.maxHeight, _actualImageSize.height));
+              _maxHorizontalDelta =
+                  (_actualImageSize.width - _viewportSize.width) / 2;
+              _maxVerticalDelta =
+                  (_actualImageSize.height - _viewportSize.height) / 2;
+              bool reactOnHorizontalDrag =
+                  _maxHorizontalDelta > _maxVerticalDelta;
+              bool reactOnPan =
+                  (_maxHorizontalDelta > 0 && _maxVerticalDelta > 0);
               if (_denormalize) {
-                _centerOffset = Offset(_maxHorizontalDelta * _normalized.dx, _maxVerticalDelta * _normalized.dy);
+                _centerOffset = Offset(_maxHorizontalDelta * _normalized.dx,
+                    _maxVerticalDelta * _normalized.dy);
                 _denormalize = false;
               }
 
               return GestureDetector(
                 onPanUpdate: reactOnPan ? handleDrag : null,
-                onHorizontalDragUpdate: reactOnHorizontalDrag && !reactOnPan ? handleDrag : null,
-                onVerticalDragUpdate: !reactOnHorizontalDrag && !reactOnPan ? handleDrag : null,
+                onHorizontalDragUpdate:
+                    reactOnHorizontalDrag && !reactOnPan ? handleDrag : null,
+                onVerticalDragUpdate:
+                    !reactOnHorizontalDrag && !reactOnPan ? handleDrag : null,
                 onLongPressEnd: (LongPressEndDetails details) {
                   RenderBox box = context.findRenderObject();
-                  Offset localPosition = box.globalToLocal(details.globalPosition);
+                  Offset localPosition =
+                      box.globalToLocal(details.globalPosition);
                   Offset newObjectOffset = _localToGlobalOffset(localPosition);
                   MapObject newObject = MapObject(
                     child: Container(
@@ -211,7 +239,8 @@ class _ImageViewportState extends State<ImageViewport> {
                   children: <Widget>[
                         CustomPaint(
                           size: _viewportSize,
-                          painter: MapPainter(_image, _zoomLevel, _centerOffset),
+                          painter:
+                              MapPainter(_image, _zoomLevel, _centerOffset),
                         ),
                       ] +
                       buildObjects(),
@@ -248,13 +277,21 @@ class MapPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     double pixelRatio = window.devicePixelRatio;
-    Size sizeInDevicePixels = Size(size.width * pixelRatio, size.height * pixelRatio);
+    Size sizeInDevicePixels =
+        Size(size.width * pixelRatio, size.height * pixelRatio);
     Paint paint = Paint();
     paint.style = PaintingStyle.fill;
-    Offset centerOffsetInDevicePixels = centerOffset.scale(pixelRatio / zoomLevel, pixelRatio / zoomLevel);
-    Offset centerInDevicePixels = Offset(image.width / 2, image.height / 2).translate(centerOffsetInDevicePixels.dx, centerOffsetInDevicePixels.dy);
-    Offset topLeft = centerInDevicePixels.translate(-sizeInDevicePixels.width / (2 * zoomLevel), -sizeInDevicePixels.height / (2 * zoomLevel));
-    Offset rightBottom = centerInDevicePixels.translate(sizeInDevicePixels.width / (2 * zoomLevel), sizeInDevicePixels.height / (2 * zoomLevel));
+    Offset centerOffsetInDevicePixels =
+        centerOffset.scale(pixelRatio / zoomLevel, pixelRatio / zoomLevel);
+    Offset centerInDevicePixels = Offset(image.width / 2, image.height / 2)
+        .translate(
+            centerOffsetInDevicePixels.dx, centerOffsetInDevicePixels.dy);
+    Offset topLeft = centerInDevicePixels.translate(
+        -sizeInDevicePixels.width / (2 * zoomLevel),
+        -sizeInDevicePixels.height / (2 * zoomLevel));
+    Offset rightBottom = centerInDevicePixels.translate(
+        sizeInDevicePixels.width / (2 * zoomLevel),
+        sizeInDevicePixels.height / (2 * zoomLevel));
     canvas.drawImageRect(
       image,
       Rect.fromPoints(topLeft, rightBottom),
@@ -281,9 +318,10 @@ class ZoomContainerState extends State<ZoomContainer> {
   }
 
   @override
-  void didUpdateWidget(ZoomContainer oldWidget){
+  void didUpdateWidget(ZoomContainer oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if(widget.imageProvider != _imageProvider) _imageProvider = widget.imageProvider;
+    if (widget.imageProvider != _imageProvider)
+      _imageProvider = widget.imageProvider;
   }
 
   @override
@@ -341,10 +379,10 @@ class ZoomContainer extends StatefulWidget {
 }
 
 class _IndoorMapState extends State<IndoorMap> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: bottomNavigation(context),
       drawer: AppDrawer(),
       appBar: AppBar(
         backgroundColor: Color(0xFFf8777c),
@@ -368,16 +406,65 @@ class _IndoorMapState extends State<IndoorMap> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           print('Back');
-          MaterialPageRoute materialPageRoute =
-              MaterialPageRoute(builder: (BuildContext context) => MyApp());
+          MaterialPageRoute materialPageRoute = MaterialPageRoute(
+              builder: (BuildContext context) => SearchRoom());
           Navigator.of(context).push(materialPageRoute);
         },
         tooltip: 'back',
-        child: Icon(Icons.arrow_back),
-        foregroundColor: Color(0xFF0e1b47),
-        backgroundColor: Color(0xFF66bcc0),
-        mini: true,
+        child: Icon(Icons.home),
+        foregroundColor: Colors.white,
+        backgroundColor: Color(0xFFf8777c),
       ),
     );
   }
+}
+
+Widget bottomNavigation(BuildContext context) {
+  return BottomAppBar(
+    // alignment: Alignment.bottomCenter,
+    color: Color(0xFF0d1b46),
+    child: Container(
+      child: ListTile(
+        leading: Container(
+          child: SizedBox(
+            width: 25,
+            height: 25,
+            child: MaterialButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              padding: EdgeInsets.all(2),
+              color: Color(0xFF65bcbf),
+              shape: CircleBorder(),
+              child: Icon(
+                Icons.arrow_back_ios,
+                size: 15,
+                color: Color(0xFF0d1b46),
+              ),
+            ),
+          ),
+        ),
+        trailing: Container(
+          child: SizedBox(
+            child: FlatButton(
+              // padding: EdgeInsets.all(1),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ContactUs(),
+                    ));
+              },
+              child: RichText(
+                text: TextSpan(
+                  text: "Contact Us",
+                  style: TextStyle(color: Color(0xFF65bcbf)),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
 }

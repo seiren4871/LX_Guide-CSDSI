@@ -1,5 +1,5 @@
-name: lx_guide
-description: A new Flutter project.
+name: lxguide
+description: A new Flutter application.
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -14,11 +14,22 @@ description: A new Flutter project.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.2 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
+  firebase_core: ^0.4.0+9
+  flutter_tags: 0.2.4
+
+    # Add the dependency for the FlutterFire plugin for Google Analytics
+  firebase_analytics: ^5.0.2
+
+    # Add the dependencies for any other Firebase products you want to use in your app
+    # For example, to use Firebase Authentication and Cloud Firestore
+  firebase_auth: ^0.14.0+5
+  cloud_firestore: ^0.12.9+5
+  search_widget: ^1.0.2
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -37,21 +48,16 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-
-  # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
-  # the material Icons class.
   uses-material-design: true
-
-  # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/img/bg.jpg
+    - assets/background.jpg
+    - assets/issoria-team-careers.png
+    - assets/Icon-MapInRoomPage.png
     - assets/img/LXfloorPlan01.png
     - assets/img/LXExhibitPlan01.png
     - assets/img/LXBuilding.png
     - assets/img/floorPlan.png
-  #  - images/a_dot_ham.jpeg
-
+    - assets/img/bg.jpg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

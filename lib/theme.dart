@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-const color50 = const Color(0xFF66bcc0);
+const color50 = const Color(0xFF65bcbf);
 const color100 = const Color(0xFF5d8aa6);
-const color300 = const Color(0xFFf8777c); 
-const color400 = const Color(0xFF0e1b47);
+const color300 = const Color(0xFFf8777d);
+const color400 = const Color(0xFF0d1b46);
 
 const color900 = const Color(0xFFA358D4);
 
