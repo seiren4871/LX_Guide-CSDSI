@@ -34,10 +34,8 @@ class Keyword extends StatelessWidget {
     print(query);
   }
 
-  Widget build(BuildContext context ) {
-    return
-        _listKeyword();
-
+  Widget build(BuildContext context) {
+    return _listKeyword();
   }
 }
 
@@ -45,10 +43,14 @@ Widget _listKeyword() {
   return Scaffold(
     backgroundColor: Colors.transparent,
     body: StreamBuilder(
-      stream: Firestore.instance.collection("keyword").where('roomId', isEqualTo: "lx1200A").snapshots(),
-      builder: (context, snapshot ) {
-        if(!snapshot.hasData ) return const Text("check on keyword syntax please");
-        return _wrapTag(context, snapshot.data.documents );
+      stream: Firestore.instance
+          .collection("keyword")
+          .where('roomId', isEqualTo: "lx1200A")
+          .snapshots(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData)
+          return const Text("check on keyword syntax please");
+        return _wrapTag(context, snapshot.data.documents);
       },
     ),
   );
@@ -59,9 +61,8 @@ Widget _wrapTag(BuildContext context, List<DocumentSnapshot> snapshot) {
   return Wrap(
 //    padding: const EdgeInsets.only(top: 20.0),
     direction: Axis.horizontal,
-    spacing: 5,
-    children:
-      snapshot.map((data) => _showTag(context, data)).toList(),
+    spacing: 6,
+    children: snapshot.map((data) => _showTag(context, data)).toList(),
   );
 //    Wrap(
 //    spacing: 8.0,
@@ -70,24 +71,23 @@ Widget _wrapTag(BuildContext context, List<DocumentSnapshot> snapshot) {
 //  );
 }
 
-Widget _showTag( BuildContext context, DocumentSnapshot data ) {
+Widget _showTag(BuildContext context, DocumentSnapshot data) {
   final tag = Tags.fromSnapshot(data);
-  print(tag.keywordName );
-  return
-    Material(
-      child: RaisedButton(
-        color: Colors.deepPurple,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(18.0),
-            side: BorderSide(color: Colors.deepPurple)
-        ),
-        child: Text(
-          tag.keywordName,
-          style: TextStyle(color: Colors.white),
-        ),
-        onPressed: () {
-          //navigate to room page
-        },
+  print(tag.keywordName);
+  return Material(
+    color: Colors.transparent,
+    child: RaisedButton(
+      color: Colors.deepPurple,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50.0),
+          side: BorderSide(color: Colors.deepPurple)),
+      child: Text(
+        tag.keywordName,
+        style: TextStyle(color: Colors.white),
       ),
-    );
+      onPressed: () {
+        //navigate to room page
+      },
+    ),
+  );
 }

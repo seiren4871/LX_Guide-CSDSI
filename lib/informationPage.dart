@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lxguide/main.dart';
 import 'theme.dart';
 import 'drawer.dart';
-import 'package:lxguide/main.dart';
+import 'main.dart';
 
 class InformationPage extends StatefulWidget {
   @override
@@ -80,7 +79,7 @@ class _InformationPageState extends State<InformationPage> {
         Navigator.pop(context);
         },
         tooltip: 'back',
-        child: Icon(Icons.arrow_back),
+        child: Icon(Icons.arrow_back_ios),
         foregroundColor: Color(0xFF0e1b47),
         backgroundColor: Color(0xFF66bcc0),
         mini: true,
