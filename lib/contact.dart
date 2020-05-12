@@ -50,45 +50,48 @@ class _ContactUsState extends State<ContactUs> {
         title: Text("Contact Us"),
       ),
       body: new SafeArea(
-        child: Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage("assets/img/bg.jpg"),
-              fit: BoxFit.cover,
-            ),
-          ),
+        child: SingleChildScrollView(
           child: Container(
+            width: double.infinity,
             decoration: BoxDecoration(
-              color: Color(0xffffffff).withOpacity(0.6),
-              shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.circular(25.0),
+              image: DecorationImage(
+                image: AssetImage("assets/img/bg.jpg"),
+                fit: BoxFit.cover,
+              ),
             ),
-            padding: new EdgeInsets.all(10.0),
-            margin: EdgeInsets.fromLTRB(15.0, 80.0, 15.0, 150.0),
-            child: Column(
-              children: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.feedback),
-                  color: Color(0xFFf8777c),
-                  iconSize: 80.0,
-                  onPressed: null,
-                ),
-                Text(
-                  "Contact Us",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color:  Color(0xFFf8777c),
-                      fontSize: 20.0),
-                ),
-                nameTag(),
-                emailTag(),
-                messageTag(),
-                submitButton(),
-              ],
+            child: Container(
+              decoration: BoxDecoration(
+                color: Color(0xffffffff).withOpacity(0.6),
+                shape: BoxShape.rectangle,
+                borderRadius: BorderRadius.circular(25.0),
+              ),
+              padding: new EdgeInsets.all(10.0),
+              margin: EdgeInsets.fromLTRB(15.0, 80.0, 15.0, 150.0),
+              child: Column(
+                children: <Widget>[
+                  IconButton(
+                    icon: Icon(Icons.feedback),
+                    color: Color(0xFFf8777c),
+                    iconSize: 80.0,
+                    onPressed: null,
+                  ),
+                  Text(
+                    "Contact Us",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color:  Color(0xFFf8777c),
+                        fontSize: 20.0),
+                  ),
+                  nameTag(),
+                  emailTag(),
+                  messageTag(),
+                  submitButton(),
+                ],
+              ),
             ),
           ),
         ),
+
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
