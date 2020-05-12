@@ -6,6 +6,7 @@ import 'package:flutter_tags/selectable_tags.dart';
 import 'package:flutter_tags/input_tags.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:lxguide/RoomInfomation.dart';
 import 'package:search_widget/search_widget.dart';
 
 void main() => runApp(MyApp());
@@ -228,6 +229,7 @@ bool _show = true;
       ),
     );
   }
+
   Widget _wrapTag(BuildContext context, List<DocumentSnapshot> snapshot) {
 //    chil snapshot.map((data) => _showTag(context, data)).toList()
       return Wrap(
@@ -280,11 +282,10 @@ bool _show = true;
       ),
     );
   }
+
   final databaseReference = Firestore.instance;
 
   int count = 0;
-
-
 
   void createRecord(String key ) async {
 
@@ -402,24 +403,23 @@ bool _show = true;
                     return MyTextField(controller, focusNode );
                   },
                   onItemSelected: (item) {
-                    setState( () {
+//                    if( item["roomName"].equals("LX1200A")) {
+                      setState(() {
 //                      _selectedItem = item;
-                    });
+                        Navigator.push(context,MaterialPageRoute(builder: (context) => Background()  ),);
+
+                      });
+//                    }
                   },
                 ),
-              const SizedBox(
+                 const SizedBox(
                 height: 32,
               ),
               SizedBox(
                 height: 300,
                   child:  _listKeyword(),
-
                 ),
               _createTag(),
-
-
-
-
 //            Text(
 //              "${_selectedItem != null ? _selectedItem["roomName"] : "" "No Item selected "}",
 //            ),

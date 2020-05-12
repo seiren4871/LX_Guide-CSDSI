@@ -19,7 +19,7 @@ class Tags {
 //assert roomId(lxRoom) and roomId(keyword)
 }
 
-Widget _tag(BuildContext context ) {
+final _tag(BuildContext context ) {
   return Scaffold(
     body: StreamBuilder(
       stream: Firestore.instance.collection("keywordTags").snapshots(),
@@ -31,7 +31,7 @@ Widget _tag(BuildContext context ) {
   );
 }
 
-Widget _wrapTag(BuildContext context, List<DocumentSnapshot> snapshot) {
+final _wrapTag(BuildContext context, List<DocumentSnapshot> snapshot) {
   return Wrap(
     spacing: 8.0,
     runSpacing: 4.0,
@@ -39,7 +39,7 @@ Widget _wrapTag(BuildContext context, List<DocumentSnapshot> snapshot) {
   );
 }
 
-Widget _showTag( BuildContext context, DocumentSnapshot data ) {
+final _showTag( BuildContext context, DocumentSnapshot data ) {
   final tag = Tags.fromSnapshot(data);
   return
     Material(
