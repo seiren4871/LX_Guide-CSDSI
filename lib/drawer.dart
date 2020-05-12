@@ -16,7 +16,7 @@ class AppDrawer extends StatelessWidget {
             onTap: () {
               Navigator.of(context).pop();
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => MyApp()));
+                  builder: (BuildContext context) => SearchRoom()));
             },
           ),
           Divider(),
@@ -26,7 +26,7 @@ class AppDrawer extends StatelessWidget {
             onTap: () {
               Navigator.of(context).pop();
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => MyApp()));
+                  builder: (BuildContext context) => SearchRoom()));
             },
           ),
           Divider(),

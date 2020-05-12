@@ -2,16 +2,17 @@
 
 import 'dart:async';
 
-import 'package:flutter_tags/selectable_tags.dart';
-import 'package:flutter_tags/input_tags.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:lxguide/RoomInfomation.dart';
+import 'package:lxguide/contact.dart';
 import 'package:search_widget/search_widget.dart';
+import "package:lxguide/drawer.dart";
+import 'package:lxguide/informationPage.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(SearchRoom());
 
-class MyApp extends StatelessWidget {
+class SearchRoom extends StatelessWidget {
   // This widget is the root of your application.
 
   Widget build(BuildContext context) {
@@ -28,14 +29,12 @@ class MyApp extends StatelessWidget {
             )),
         child: Scaffold(
           backgroundColor: Colors.transparent,
-          bottomNavigationBar:  bottomNavigation,
+          bottomNavigationBar: bottomNavigation(context ),
+          drawer: AppDrawer(),
           appBar: AppBar(
-              title: IconButton(
-                  icon: Icon(
-                    Icons.dehaze,
-                    color: Colors.pinkAccent,
-                  ),
-                  onPressed: () {})),
+            backgroundColor: Color(0xFFf8777c),
+          ),
+//          resizeToAvoidBottomPadding: false,
           body: MyHomePage(),
 //          Stack(
 //            children: [
@@ -48,46 +47,54 @@ class MyApp extends StatelessWidget {
     );
   }
 
-  final  bottomNavigation = BottomAppBar(
-    // alignment: Alignment.bottomCenter,
-    color: Colors.transparent,
-    child: Container(
-      child: ListTile(
-        leading: Container(
-          child: SizedBox(
-            width: 25,
-            height: 25,
-            child: MaterialButton(
-              onPressed: () {},
-              padding: EdgeInsets.all(2),
-              color: Colors.lightBlue,
-              shape: CircleBorder(),
-              child: Icon(
-                Icons.arrow_back_ios,
-                size: 15,
+  Widget bottomNavigation(BuildContext context) {
+    return BottomAppBar(
+      // alignment: Alignment.bottomCenter,
+      color: Colors.transparent,
+      child: Container(
+        child: ListTile(
+          leading: Container(
+            child: SizedBox(
+              width: 25,
+              height: 25,
+              child: MaterialButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => InformationPage(),));
+                },
+                padding: EdgeInsets.all(2),
+                color: Colors.lightBlue,
+                shape: CircleBorder(),
+                child: Icon(
+                  Icons.arrow_back_ios,
+                  size: 15,
+                ),
               ),
             ),
           ),
-        ),
-        trailing: Container(
-          child: SizedBox(
-            child: FlatButton(
-              // padding: EdgeInsets.all(1),
-              onPressed: () {},
-              child: RichText(
-                text: TextSpan(
-                  text: "Contact Us",
-                  style: TextStyle(color: Colors.lightBlue),
+          trailing: Container(
+            child: SizedBox(
+              child: FlatButton(
+                // padding: EdgeInsets.all(1),
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => ContactUs(),));
+                },
+                child: RichText(
+                  text: TextSpan(
+                    text: "Contact Us",
+                    style: TextStyle(color: Colors.lightBlue),
+                  ),
                 ),
               ),
             ),
           ),
         ),
       ),
-    ),
-  );
-
+    );
+  }
 }
+
 
 // previous Page button start
 
@@ -129,66 +136,6 @@ class _MyHomePageState extends State<MyHomePage> {
     _controller.dispose();
     super.dispose();
   }
-//
-//     Widget _searchBox() {
-//      String user_input = "";
-//      return
-//        Row(
-//        children: [
-//        Padding(
-//          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-//          child: Container(
-//            decoration: BoxDecoration(
-//              border: Border.all(color: Colors.grey),
-//              borderRadius: BorderRadius.circular(5.0),
-//            ),
-//          ),
-//        ),
-//          Ink(
-//            decoration: const ShapeDecoration(
-//              color: Colors.green,
-//              shape: CircleBorder(),
-//            ),
-//            child: IconButton(
-//              icon: Icon(Icons.search ),
-////              onChanged: ( _controller ) {
-////                user_input = userSearch --> search function
-////              },
-//            ),
-//          ),
-//        ],
-//      );
-//     }
-//
-//     Widget _dropDownButton() {
-//    //auto show result
-//    return DropdownButton<String>(
-//      value: ,// list after search type search_input(onChanged)
-//      onChanged: (String string) => setState( () => selectedItem = string ),
-//       selectedItemBuilder: (BuildContext context ) {
-//        return /*list after search*/items.map<Widget>( (String item ) {
-//          return Text(item);
-//        }).toList();
-//       },
-//      items: item.map( (String item ) {
-//        return DropdownMenuItem<String>(
-//          child: ,//List of search
-//          value: item,
-//        );
-//      }).toList(),
-//    );
-//     }
-//    Widget _tag(BuildContext context ) {
-//      return Scaffold(
-//        body: StreamBuilder(
-//            stream: Firestore.instance.collection("keywordTags").snapshots(),
-//          builder: (context, snapshot ) {
-//              if(!snapshot.hasData ) return const Text("check on keyword syntax please");
-//              return _wrapTag(context, snapshot.data.document );
-//          },
-//        ),
-//      );
-//    }
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -229,7 +176,7 @@ bool _show = true;
       ),
     );
   }
-
+//
   Widget _wrapTag(BuildContext context, List<DocumentSnapshot> snapshot) {
 //    chil snapshot.map((data) => _showTag(context, data)).toList()
       return Wrap(
@@ -244,6 +191,7 @@ bool _show = true;
     final tag = GetTags.fromSnapshot(data);
     return
       Material(
+
         child: RaisedButton(
           color: Colors.deepPurple,
           shape: RoundedRectangleBorder(
@@ -259,108 +207,6 @@ bool _show = true;
           },
         ),
       );
-  }
-
-  Widget _createTag() {
-
-    return Material(
-      child: FlatButton.icon(
-        color: Colors.white,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(18.0),
-            side: BorderSide(color: Colors.indigo )
-        ),
-         label:
-            Text(
-            "Create Tag",
-              style: TextStyle(color: Colors.indigo),
-            ),
-          icon: Icon(Icons.add, color: Colors.indigo),
-        onPressed: () {
-            _showMyDialog(context);
-        },
-      ),
-    );
-  }
-
-  final databaseReference = Firestore.instance;
-
-  int count = 0;
-
-  void createRecord(String key ) async {
-
-    await databaseReference.collection("keyword")
-        .document("key$count" )
-        .setData({
-      'keywordName': "$key",
-      'roomId': "null"
-    });
-    count++;
-    print(count);
-  }
-  String userInput = "";
-
-  Future<void> _showMyDialog(BuildContext context) async {
-    TextEditingController _controllerCreateRecord;
-    FocusNode focusNode;
-
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Row(
-            children: <Widget> [
-              Text('Create Tag'),
-              Icon(Icons.add) ,
-            ],
-          ),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                TextField(
-                  controller: _controller,
-                  focusNode: focusNode,
-                  style: TextStyle(fontSize: 16, color: Colors.grey[600]),
-                  decoration: InputDecoration(
-                    enabledBorder: const OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: Color(0x4437474F),
-                      ),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Theme.of(context).primaryColor),
-                    ),
-                    border: InputBorder.none,
-                    hintText: "Type your keyword",
-                    contentPadding: const EdgeInsets.only(
-                      left: 16,
-                      right: 20,
-                      top: 14,
-                      bottom: 14,
-                    ),
-                  ),
-                  onChanged: (String text) {
-                    setState(() {
-                      print(_controller.text );
-                      userInput = _controller.text;
-                    });
-                  },
-                ),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            FlatButton(
-              child: Text('SEND REQUEST'),
-              onPressed: () {
-                  createRecord( _controller.text );
-              },
-            ),
-          ],
-        );
-      },
-    );
   }
 
   Widget _build(BuildContext context, List<DocumentSnapshot> snapshot) {
@@ -406,10 +252,9 @@ bool _show = true;
 //                    if( item["roomName"].equals("LX1200A")) {
                       setState(() {
 //                      _selectedItem = item;
-                        Navigator.push(context,MaterialPageRoute(builder: (context) => Background()  ),);
-
+                        Navigator.push(context,MaterialPageRoute(
+                            builder: (context) => Background()  ),);
                       });
-//                    }
                   },
                 ),
                  const SizedBox(
@@ -419,7 +264,7 @@ bool _show = true;
                 height: 300,
                   child:  _listKeyword(),
                 ),
-              _createTag(),
+//
 //            Text(
 //              "${_selectedItem != null ? _selectedItem["roomName"] : "" "No Item selected "}",
 //            ),
@@ -431,67 +276,6 @@ bool _show = true;
 
 }
 
-
-//  Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
-//    return ListView(
-
-//      padding: const EdgeInsets.only(top: 20.0),
-//      children: snapshot.map((data) => _buildListItem(context, data)).toList(),
-//    );
-//  }
-//  Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
-//    final users = Users.fromSnapshot(data);
-//
-//    return Padding(
-//      key: ValueKey(users.name),
-//      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-//      child: Container(
-//        decoration: BoxDecoration(
-//          border: Border.all(color: Colors.grey),
-//          borderRadius: BorderRadius.circular(5.0),
-//        ),
-//        child: ListTile(
-//          title: Text(users.name),
-//            trailing: Text(users.email.toString()),
-//          onTap: () => print(users),
-//        ),
-//      ),
-//    );
-//  }
-//
-//}
-//class GetData {
-//  List<String> list = [];
-//  // ignore: close_sinks
-//  StreamController<String> streamController = new StreamController.broadcast();
-//
-////  @override
-//  void initState() {
-////    super.initiState();
-//
-//    print("Creating a StreamController .. ");
-//
-//    //1st sub
-//    streamController.stream.listen( (data) {
-//      print("dataReceived1:" + data );
-//    }, onDone: () {
-//      print("task Done1")
-//    }, onError: () {
-//      print("some Error1")
-//    } );
-//
-//    //2nd
-//    streamController.stream.listen( (data) {
-//      print("DataRecieved2: " + data);
-//    }, onDone: () {
-//      print("Ondone " + data ) ;
-//    }, onError: () {
-//      print("Error2");
-//    });
-//    streamController.add("this a test data");
-//    print("code controller is here");
-//  }
-//}
 
 class SelectedItemWidget extends StatelessWidget {
     const SelectedItemWidget(this.selectedItem, this.deleteSelectedItem);

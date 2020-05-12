@@ -29,7 +29,7 @@ Future<ConfirmAction> _asyncConfirmDialog(BuildContext context) async {
             onPressed: () {
               Navigator.of(context).pop(ConfirmAction.ACCEPT);
               MaterialPageRoute materialPageRoute =
-              MaterialPageRoute(builder: (BuildContext context) => MyApp());
+              MaterialPageRoute(builder: (BuildContext context) => SearchRoom());
               Navigator.of(context).push(materialPageRoute);
             },
           )
@@ -94,7 +94,7 @@ class _ContactUsState extends State<ContactUs> {
         onPressed: () {
           print('Back');
           MaterialPageRoute materialPageRoute =
-          MaterialPageRoute(builder: (BuildContext context) => MyApp());
+          MaterialPageRoute(builder: (BuildContext context) => SearchRoom());
           Navigator.of(context).push(materialPageRoute);
         },
         tooltip: 'back',

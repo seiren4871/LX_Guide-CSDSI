@@ -50,6 +50,11 @@ flutter:
     - assets/background.jpg
     - assets/issoria-team-careers.png
     - assets/Icon-MapInRoomPage.png
+    - assets/img/LXfloorPlan01.png
+    - assets/img/LXExhibitPlan01.png
+    - assets/img/LXBuilding.png
+    - assets/img/floorPlan.png
+    - assets/img/bg.jpg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

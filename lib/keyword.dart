@@ -33,22 +33,12 @@ class Keyword extends StatelessWidget {
 
     print(query);
   }
+
   Widget build(BuildContext context ) {
     return
         _listKeyword();
 
   }
-}
-Widget _tag() {
-return Scaffold(
-body: StreamBuilder(
-stream: Firestore.instance.collection("keyword").where('roomId', isEqualTo: "lx1200A").snapshots(),
-builder: (context, snapshot ) {
-if(!snapshot.hasData ) return const Text("check on keyword syntax please");
-return _wrapTag(context, snapshot.data.documents );
-},
-),
-);
 }
 
 Widget _listKeyword() {
