@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -11,7 +12,6 @@ class ContactUs extends StatefulWidget {
 }
 
 enum ConfirmAction { CANCEL, ACCEPT }
-
 
 class _ContactUsState extends State<ContactUs> {
   @override
@@ -100,7 +100,6 @@ class _ContactUsState extends State<ContactUs> {
     );
   }
 
-
   final backgroundImage = new Container(
     width: double.infinity,
     decoration: BoxDecoration(
@@ -110,6 +109,7 @@ class _ContactUsState extends State<ContactUs> {
       ),
     ),
   );
+
 
   TextEditingController _controllerMessenger;
   TextEditingController _controllerName;
@@ -145,6 +145,7 @@ class _ContactUsState extends State<ContactUs> {
   String message = "";
   Widget messageTag() {
 
+
     return new Container(
       height: 100.0,
       margin: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),
@@ -170,18 +171,22 @@ class _ContactUsState extends State<ContactUs> {
                 borderRadius: BorderRadius.circular(20.0),
                 borderSide: BorderSide(color: Color(00000000))),
           ),
+
           onChanged: (String text ) {
             setState(() {
               print( _controllerMessenger.text );
               message = _controllerMessenger.text;
             });
           },
+
         ),
       ),
     );
   }
 
+
 String name = "";
+
   Widget nameTag() {
     return new Container(
       height: 50.0,
@@ -204,6 +209,7 @@ String name = "";
               borderRadius: BorderRadius.circular(20.0),
               borderSide: BorderSide(color: Color(00000000))),
         ),
+
         onChanged: (String text ) {
           setState(() {
             print(_controllerName.text);
@@ -217,7 +223,6 @@ String name = "";
 String email = "";
   Widget emailTag() {
     return new Container(
-
       height: 50.0,
       margin: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 10.0),
       child: TextField(
@@ -238,6 +243,7 @@ String email = "";
               borderRadius: BorderRadius.circular(20.0),
               borderSide: BorderSide(color: Color(00000000))),
         ),
+
         onChanged: (String text ) {
           setState(() {
             print(_controllerEmail.text );
@@ -294,4 +300,5 @@ String email = "";
     print(" message: $message, name: $name, email: $email");
   }
 }
+
 

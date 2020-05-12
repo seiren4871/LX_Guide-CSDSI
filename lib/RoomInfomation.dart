@@ -10,6 +10,10 @@ import 'main_IndoorMap.dart';
 import 'theme.dart';
 
 
+
+
+
+
 class Background extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -230,6 +234,7 @@ class _RoomInfomationState extends State<RoomInfomation> {
     _controller.dispose();
     super.dispose();
   }
+
   void createRecord(String key ) async {
 
     await databaseReference.collection("keyword")
@@ -238,8 +243,11 @@ class _RoomInfomationState extends State<RoomInfomation> {
       'roomId': "lx1200A",
       'distacnce': "null",
     });
+
 //    count++;
     print("keyword: $key have been added successfully !");
+
+
   }
 // void getRoomName(String ) async {
 //
@@ -310,8 +318,10 @@ class _RoomInfomationState extends State<RoomInfomation> {
             FlatButton(
               child: Text('SEND REQUEST'),
               onPressed: () {
+
                 createRecord(userInput );
                 Navigator.of(context).pop();
+
               },
             ),
           ],
