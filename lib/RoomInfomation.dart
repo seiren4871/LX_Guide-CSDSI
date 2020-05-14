@@ -10,6 +10,8 @@ import 'main_IndoorMap.dart';
 import 'theme.dart';
 //Color.fromRGBO(238, 230, 227, 1)
 
+int gpsCount = 0;
+
 class Background extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -123,6 +125,8 @@ class Background extends StatelessWidget {
                           SizedBox(
                             child: GestureDetector(
                               onTap: () {
+//                                gpsCount++;
+//                                print("gps search Time = $gpsCount");
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -218,10 +222,11 @@ class _RoomInfomationState extends State<RoomInfomation> {
     );
   }
 
-  final databaseReference = Firestore.instance;
+
   int count = 0;
   String userInput = "";
   TextEditingController _controller;
+
   void initState() {
     super.initState();
     _controller = TextEditingController();
@@ -236,6 +241,8 @@ class _RoomInfomationState extends State<RoomInfomation> {
     _controller.dispose();
     super.dispose();
   }
+
+  final databaseReference = Firestore.instance;
 
   void createRecord(String key) async {
     await databaseReference

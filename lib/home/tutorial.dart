@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:LXGuide/home/home.dart';
 import 'package:page_view_indicators/circle_page_indicator.dart';
 import 'package:LXGuide/drawer.dart';
+import 'package:LXGuide/home/tutorial.dart';
 
 class TutorialPage extends StatefulWidget {
   @override

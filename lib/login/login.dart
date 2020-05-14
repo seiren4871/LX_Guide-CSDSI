@@ -5,6 +5,7 @@ import 'package:LXGuide/login/login_as_guest.dart';
 import 'package:LXGuide/login/login_with_id.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:LXGuide/contactNoLogin.dart';
+import 'package:LXGuide/home/tutorial.dart';
 
 import '../colors.dart';
 
@@ -30,7 +31,8 @@ class _LoginPageState extends State<LoginPage> {
                 image: AssetImage("assets/background.jpg"),
                 fit: BoxFit.cover)
         ),
-        child: Stack(
+        child: loggedIn == false ?
+        Stack(
           children: [
             Column(
               children: <Widget>[
@@ -105,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
               ],
             ),
           ],
-        ),
+        ) : Navigator.push(context, MaterialPageRoute(builder: (context) => TutorialPage() )),
       ),
     );
   }
@@ -142,4 +144,3 @@ Widget bottomNavigation(BuildContext context) {
     ),
   );
 }
-

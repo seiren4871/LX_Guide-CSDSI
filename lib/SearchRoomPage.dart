@@ -12,6 +12,11 @@ class SearchRoom extends StatefulWidget {
   @override
   _SearchRoomState createState() => _SearchRoomState();
 }
+int searchCount = 0; //guest
+//for KMUTT user we do not put any function to increment value of (
+//    LanguageChangeTime, Searchtime and gps feature 3
+//    because we dont have a data of user email and password of KMUTT, and
+//      we plan on to make this app conveinient to KMUTT user first(not have sign up for them)
 
 class _SearchRoomState extends State<SearchRoom> {
   // This widget is the root of your application.
@@ -56,7 +61,7 @@ class _SearchRoomState extends State<SearchRoom> {
               height: 35,
               child: MaterialButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.push( context, MaterialPageRoute(builder: (context) => InformationPage() ));
                 },
                 padding: EdgeInsets.all(2),
                 color: Color(0xFF65bcbf),
@@ -273,6 +278,7 @@ class SelectedItemWidget extends StatelessWidget {
   final DocumentSnapshot selectedItem;
   final VoidCallback deleteSelectedItem;
   @override
+
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(
@@ -324,6 +330,10 @@ class MyTextField extends StatelessWidget {
         textInputAction: TextInputAction.newline,
         keyboardType: TextInputType.text,
         maxLines: null,
+        onTap: () {
+//          searchCount++;
+//          print("search Time = $searchCount");
+        },
         style: new TextStyle(
           color: Color(0xff214C7D),
         ),
@@ -409,22 +419,6 @@ class PopupListItemWidget extends StatelessWidget {
   }
 }
 
-class DataFromDb {
-  String roomId;
-  String keywordName;
-
-  final DocumentReference reference;
-
-  DataFromDb.fromMap(Map<String, dynamic> map, {this.reference})
-      : assert(map['keywordName'] != null),
-        assert(map['roomId'] != null),
-        keywordName = map['keywordName'],
-        roomId = map['roomId'];
-
-  DataFromDb.fromSnapshot(DocumentSnapshot snapshot)
-      : this.fromMap(snapshot.data, reference: snapshot.reference);
-}
-
 class GetTags {
   final String keywordName;
   final String roomId;
@@ -446,20 +440,20 @@ class GetTags {
   //assert roomId(lxRoom) and roomId(keyword)
 }
 
-class Users {
-  final String name;
-  final int email;
-  final DocumentReference reference;
-
-  Users.fromMap(Map<String, dynamic> map, {this.reference})
-      : assert(map['roomName'] != null),
-        assert(map['floor'] != null),
-        name = map['roomName'],
-        email = map['floor'];
-
-  Users.fromSnapshot(DocumentSnapshot snapshot)
-      : this.fromMap(snapshot.data, reference: snapshot.reference);
-
-  @override
-  String toString() => "Record<$name:$email>";
-}
+//class Users {
+//  final String name;
+//  final int email;
+//  final DocumentReference reference;
+//
+//  Users.fromMap(Map<String, dynamic> map, {this.reference})
+//      : assert(map['roomName'] != null),
+//        assert(map['floor'] != null),
+//        name = map['roomName'],
+//        email = map['floor'];
+//
+//  Users.fromSnapshot(DocumentSnapshot snapshot)
+//      : this.fromMap(snapshot.data, reference: snapshot.reference);
+//
+//  @override
+//  String toString() => "Record<$name:$email>";
+//}

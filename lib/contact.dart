@@ -5,10 +5,24 @@ import 'SearchRoomPage.dart';
 import 'package:flutter/services.dart';
 import 'theme.dart';
 import 'package:LXGuide/home/home.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ContactUs extends StatefulWidget {
   @override
   _ContactUsState createState() => _ContactUsState();
+}
+
+final db  = Firestore.instance;
+String name,email,message = "";
+
+void createContact(String name, String email, String message ) async {
+  await db.collection("contactUs")
+      .add({
+    'name': name,
+    'email': email,
+    'message' : message,
+
+  });
 }
 
 enum ConfirmAction { CANCEL, ACCEPT }
@@ -31,6 +45,7 @@ Future<ConfirmAction> _asyncConfirmDialog(BuildContext context) async {
           FlatButton(
             child: const Text('ACCEPT'),
             onPressed: () {
+              createContact(name, email, message );
               Navigator.of(context).pop(ConfirmAction.ACCEPT);
               MaterialPageRoute materialPageRoute =
               MaterialPageRoute(builder: (BuildContext context) => HomePage());
@@ -45,6 +60,8 @@ Future<ConfirmAction> _asyncConfirmDialog(BuildContext context) async {
 
 class _ContactUsState extends State<ContactUs> {
   @override
+
+
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIOverlays([]);
     return Scaffold(
@@ -155,6 +172,9 @@ class _ContactUsState extends State<ContactUs> {
           textInputAction: TextInputAction.newline,
           keyboardType: TextInputType.multiline,
           maxLines: 7,
+          onSubmitted: (String value) {
+            message = value;
+          },
           style: new TextStyle(
             color: Color(0xff214C7D),
           ),
@@ -181,6 +201,9 @@ class _ContactUsState extends State<ContactUs> {
         textInputAction: TextInputAction.newline,
         keyboardType: TextInputType.text,
         maxLines: null,
+        onSubmitted: (String value) {
+          name = value;
+        },
         style: new TextStyle(
           color: Color(0xff214C7D),
         ),
@@ -206,6 +229,9 @@ class _ContactUsState extends State<ContactUs> {
         textInputAction: TextInputAction.newline,
         keyboardType: TextInputType.emailAddress,
         maxLines: null,
+        onSubmitted: (String value) {
+          email = value;
+        },
         style: new TextStyle(
           color: Color(0xff214C7D),
         ),
@@ -271,4 +297,6 @@ Widget bottomNavigation(BuildContext context) {
       ),
     ),
   );
+
+
 }

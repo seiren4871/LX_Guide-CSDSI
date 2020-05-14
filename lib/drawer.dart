@@ -1,12 +1,28 @@
 import 'package:LXGuide/login/login.dart';
+import 'package:LXGuide/login/login_with_id.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'main.dart';
 import 'theme.dart';
-import 'package:LXGuide/login/login.dart';
+import 'package:LXGuide/login/login_as_guest.dart';
 import 'package:LXGuide/home/home.dart';
+import 'package:LXGuide/singleton.dart';
+import 'package:LXGuide/drawer.dart';
 
-class AppDrawer extends StatelessWidget {
+class AppDrawer extends StatefulWidget {
   @override
+  AppDrawerState createState() => AppDrawerState();
+
+}
+
+class AppDrawerState extends State<AppDrawer> {
+  void setLogoutState() {
+    setState(() {
+      loggedIn = false;
+      appData.emailOrIdFromGuest = "";
+      appData.studentIdOrName = "";
+    });
+  }
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
@@ -30,9 +46,13 @@ class AppDrawer extends StatelessWidget {
             icon: Icons.exit_to_app,
             text: 'Exit',
             onTap: () {
-              Navigator.of(context).pop();
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => LoginPage()));
+              setLogoutState();
+//              Navigator.of(context).pop();
+//              Navigator.of(context).push(MaterialPageRoute(
+//                  builder: (BuildContext context) => LoginPage()));
+              Navigator.popUntil(context,
+                  ModalRoute.withName(
+                      Navigator.defaultRouteName));
             },
           ),
           Divider(
@@ -42,19 +62,29 @@ class AppDrawer extends StatelessWidget {
           _createDrawerItem(
               icon: Icons.language,
               text: 'Switch Language\n(coming soon...)',
-              onTap: null),
+              onTap: () {
+//                setState(() {
+//                  switchCount++;
+////                 Firestore.instance.collection("guest").setDa
+////                      .where("name", isEqualTo: appData.emailOrIdFromGuest).;
+//                  print("switch Language Time = $switchCount");
+//                });
+
+              }),
         ],
       ),
     );
   }
+  String under = appData.studentIdOrName.toUpperCase();
+  String above = appData.emailOrIdFromGuest.toUpperCase();
 
   Widget _createHeader() {
     return UserAccountsDrawerHeader(
       decoration: BoxDecoration(
         color: Color(0xFFf8777c),
       ),
-      accountName: Text("John Doe"), //accountName HERE!
-      accountEmail: Text("john.doe123@mail.kmutt.ac.th"), //accountEmail HERE!!
+      accountName: Text("$above" ), //accountName HERE!
+      accountEmail: Text( "$under" ), //accountEmail HERE!!
       currentAccountPicture: CircleAvatar(
         foregroundColor: Color(0xFF65bcbf),
         backgroundColor: Colors.white,
@@ -82,3 +112,7 @@ class AppDrawer extends StatelessWidget {
     );
   }
 }
+
+
+
+

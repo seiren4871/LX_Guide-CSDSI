@@ -1,3 +1,4 @@
+import 'package:LXGuide/login/login_with_id.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -5,8 +6,14 @@ import 'package:flutter/services.dart';
 import 'package:LXGuide/home/tutorial.dart';
 import 'package:LXGuide/home/home.dart';
 import 'package:LXGuide/contactNoLogin.dart';
-
+import 'package:LXGuide/singleton.dart';
 import '../colors.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+int gpsCount, switchCount, searchCount = 0;
+
+final GlobalKey<FormState> _emailKey  = GlobalKey<FormState>();
+//final GlobalKey<FormState> _idKey  = GlobalKey<FormState>();
 
 class LoginAsGuestPage extends StatefulWidget {
   @override
@@ -34,7 +41,23 @@ class _LoginAsGuestPageState extends State<LoginAsGuestPage> {
   ] ;
 
   String dropdownValue = 'Student';
-  String nameInput = "";
+  String name = "";
+  bool _autoValidate = false;
+
+  final db = Firestore.instance;
+  void createContact(String name, String role) async {
+    await db.collection("guest")
+        .add({
+      'name' : name,
+      'role' : role,
+      'gpsFeature' : gpsCount,
+      'switchLanguageTime' : switchCount,
+      'searchFeature' : searchCount
+
+    });
+  }
+
+//  final GlobalKey<FormState> name  = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIOverlays([]);
@@ -90,12 +113,22 @@ class _LoginAsGuestPageState extends State<LoginAsGuestPage> {
                             SizedBox(
                               height: 8.0,
                             ),
-                            TextFormField(
+                            Form(
+                              key: _emailKey,
+                            child: TextFormField(
+                              autovalidate: false,
                               controller: _nameController,
                               textAlign: TextAlign.start,
                               keyboardType: TextInputType.text,
-                              onFieldSubmitted: (value) {
-                                nameInput = value.trim();
+                              validator: (String value) {
+                                if(value.length <1 ) return "please insert your name";
+                                if(value.length > 12 ) return "your name is too long";
+                                return null;
+                              },
+                              onSaved: ( value) {
+                                setState(() {
+                                  appData.emailOrIdFromGuest = value;
+                                });
                               },
                               decoration: InputDecoration(
                                 filled: true,
@@ -111,6 +144,7 @@ class _LoginAsGuestPageState extends State<LoginAsGuestPage> {
                                 hintStyle: editTextHintStyle,
                               ),
                               style: editTextStyle,
+                            ),
                             ),
                             SizedBox(
                               height: 20.0,
@@ -136,6 +170,7 @@ class _LoginAsGuestPageState extends State<LoginAsGuestPage> {
                                     const Radius.circular(5.0)),
                               ),
                               child: DropdownButton<String>(
+//                                key: _idKey,
                                 value: dropdownValue,
                                 icon: Icon(Icons.arrow_drop_down, color: kTextBlack.withOpacity(0.6),),
                                 iconSize: 28,
@@ -145,6 +180,7 @@ class _LoginAsGuestPageState extends State<LoginAsGuestPage> {
                                 onChanged: (String data) {
                                   setState(() {
                                     dropdownValue = data;
+//                                    appData.studentIdOrName = data;
                                     print(dropdownValue);
                                   });
                                 },
@@ -168,6 +204,8 @@ class _LoginAsGuestPageState extends State<LoginAsGuestPage> {
                             ),
                             InkWell(
                               onTap: () {
+                                pressLogin();
+
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -195,6 +233,7 @@ class _LoginAsGuestPageState extends State<LoginAsGuestPage> {
                                       fontWeight: FontWeight.w800),
                                 ),
                               ),
+
                             ),
                             SizedBox(
                               height: 20.0,
@@ -222,7 +261,27 @@ class _LoginAsGuestPageState extends State<LoginAsGuestPage> {
       ),
     );
   }
+void pressLogin() {
+    if(_emailKey.currentState.validate()
+        && dropdownValue != null ) {
 
+      _emailKey.currentState.save();
+//      _idKey.currentState.save();
+
+      setState(() {
+        appData.studentIdOrName = dropdownValue;
+        loggedIn = true;
+      });
+      print("appData.emailOrIdfromGuest :" + appData.emailOrIdFromGuest );
+      print("appData.studentIdOrName :" + appData.studentIdOrName );
+      createContact(appData.emailOrIdFromGuest, appData.studentIdOrName );
+    } else {
+      print("invalid input please check on login as guest file");
+      setState(() {
+        _autoValidate = true;
+      });
+    }
+}
 
 }
 
@@ -275,3 +334,4 @@ Widget bottomNavigation(BuildContext context) {
     ),
   );
 }
+

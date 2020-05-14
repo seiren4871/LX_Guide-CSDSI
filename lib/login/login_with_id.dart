@@ -1,3 +1,4 @@
+import 'package:LXGuide/drawer.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +6,16 @@ import 'package:flutter/services.dart';
 import 'package:LXGuide/home/tutorial.dart';
 import 'package:LXGuide/contactNoLogin.dart';
 import '../colors.dart';
+import 'package:LXGuide/SearchRoomPage.dart';
+import 'package:LXGuide/singleton.dart';
+
+final GlobalKey<FormState> _emailKey  = GlobalKey<FormState>();
+final GlobalKey<FormState> _idKey  = GlobalKey<FormState>();
+final mainKey = GlobalKey<ScaffoldState>();
+
+//final GlobalKey<Drawer> drawerKey = GlobalKey();
+
+bool loggedIn = false;
 
 class LoginWithIdPage extends StatefulWidget {
   @override
@@ -14,6 +25,7 @@ class LoginWithIdPage extends StatefulWidget {
 class _LoginWithIdPageState extends State<LoginWithIdPage> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+//  final textController = TextEditingController();
 
   TextStyle editTextStyle =
       TextStyle(color: kTextBlack.withOpacity(0.8), fontSize: 16.0);
@@ -26,8 +38,7 @@ class _LoginWithIdPageState extends State<LoginWithIdPage> {
     borderRadius: BorderRadius.circular(5.0),
   );
 
-  final GlobalKey<FormState> _emailKey  = GlobalKey<FormState>();
-  final GlobalKey<FormState> _idKey  = GlobalKey<FormState>();
+
 
   bool _autoValidate = false;
 
@@ -35,10 +46,13 @@ class _LoginWithIdPageState extends State<LoginWithIdPage> {
   String studentId;
   List<String> _checkYear = ["56", "57", "58", "59", "60" , "61", "62" ];
   @override
+
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIOverlays([]);
+//    textController.text = appData.emailOrIdFromGuest;
 
     return Scaffold(
+      key: mainKey,
       resizeToAvoidBottomPadding: false,
       bottomNavigationBar: bottomNavigation(context),
       body: Container(
@@ -46,7 +60,8 @@ class _LoginWithIdPageState extends State<LoginWithIdPage> {
         decoration: BoxDecoration(
             image: DecorationImage(
                 image: AssetImage("assets/background.jpg"), fit: BoxFit.cover)),
-        child: Stack(
+        child: loggedIn == false ?
+        Stack(
           children: [
             SingleChildScrollView(
               child: Container(
@@ -98,16 +113,9 @@ class _LoginWithIdPageState extends State<LoginWithIdPage> {
                                 textAlign: TextAlign.start,
                                 keyboardType: TextInputType.emailAddress,
                                 validator: _validateEmail,
-//                              onChanged: (value) {
-//                                //_doApiCall();
-//                                setState(() {
-//                                  _autoValidate = true;
-//                                });
-//                              },
                                 onSaved: (String value) {
-//                                  setState(() {
                                     email = value;
-//                                  });
+                                    appData.emailOrIdFromGuest = value;
                                 },
                                 decoration: InputDecoration(
                                   filled: true,
@@ -158,6 +166,7 @@ class _LoginWithIdPageState extends State<LoginWithIdPage> {
                                 keyboardType: TextInputType.visiblePassword,
                                 onSaved: ( String value) {
                                   studentId = value;
+                                  appData.studentIdOrName = value;
                                 },
                                 decoration: InputDecoration(
                                   filled: true,
@@ -180,12 +189,13 @@ class _LoginWithIdPageState extends State<LoginWithIdPage> {
                               height: 20.0,
                             ),
                             InkWell(
-                              onTap: _validateForm,
-//                                Navigator.push(
-//                                  context,
-//                                  MaterialPageRoute(
-//                                      builder: (context) => TutorialPage()),
-//                                );
+                              onTap: () {
+                              _validateForm();
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => TutorialPage()),
+                                ); },
 
                               child: Container(
                                 height: 50.0,
@@ -232,10 +242,12 @@ class _LoginWithIdPageState extends State<LoginWithIdPage> {
               ),
             ),
           ],
-        ),
+        ) : Navigator.push( context, MaterialPageRoute(builder: (context) => SearchRoom() )),
+
       ),
     );
   }
+
   String _validateEmail(String email) {
     String pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+){1})|(\".+\"))@((mail)\.kmutt\.(ac)\.(th))$';
     RegExp reg = new RegExp(pattern);
@@ -245,14 +257,28 @@ class _LoginWithIdPageState extends State<LoginWithIdPage> {
       return null;
     }
   }
+
+  void setLoginValueToFalse() {
+    setState(() {
+      loggedIn = false;
+    });
+  }
+
   void _validateForm() {
     if(_emailKey.currentState.validate()
         && _idKey.currentState.validate() ) {
+
       _emailKey.currentState.save();
       _idKey.currentState.save();
 
+      setState(() {
+        loggedIn = true;
+      });
+
+//    mainKey.currentState.showSnackBar(snackbar);
       print('user email : $email' );
       print('student id : $studentId');
+      print('status : $loggedIn');
 
     }else {
       setState(() {
