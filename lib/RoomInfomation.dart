@@ -33,6 +33,13 @@ class Background extends StatelessWidget {
                     child: Text("ESCAPE ROOM",
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
+                            shadows: [
+                              Shadow(
+                                blurRadius: 10.0,
+                                color: Colors.white,
+                                offset: Offset(5.0, 5.0),
+                              ),
+                            ],
                             fontSize: 30,
                             color: Color(0xFFf8777c))),
                   ),
@@ -73,9 +80,10 @@ class Background extends StatelessWidget {
                             child: SizedBox(
                               child: Text("Room Information",
                                   style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16,
-                                      color: Colors.black,)),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                    color: Colors.black,
+                                  )),
                             ),
                           ),
                           Padding(
@@ -121,8 +129,7 @@ class Background extends StatelessWidget {
                                       builder: (context) => IndoorMap()),
                                 );
                               },
-                              child:
-                              Image.asset(
+                              child: Image.asset(
                                 'assets/Icon-MapInRoomPage.png',
                                 width: 70,
                                 height: 70,
@@ -145,13 +152,13 @@ class Background extends StatelessWidget {
   Widget bottomNavigation(BuildContext context) {
     return BottomAppBar(
       // alignment: Alignment.bottomCenter,
-      color: Color(0xFF0d1b46),
+      color: Color(0xFF384861),
       child: Container(
         child: ListTile(
           leading: Container(
             child: SizedBox(
-              width: 25,
-              height: 25,
+              width: 35,
+              height: 35,
               child: MaterialButton(
                 onPressed: () {
                   Navigator.pop(context);
@@ -276,8 +283,7 @@ class _RoomInfomationState extends State<RoomInfomation> {
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderSide:
-                          BorderSide(color: color300),
+                      borderSide: BorderSide(color: color300),
                     ),
                     border: InputBorder.none,
                     hintText: "Type your keyword",

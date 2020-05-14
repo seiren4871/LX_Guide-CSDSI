@@ -7,6 +7,8 @@ import 'theme.dart';
 import 'drawer.dart';
 import 'main.dart';
 import 'contact.dart';
+import 'SearchRoomPage.dart';
+import 'package:LXGuide/home/home.dart';
 
 class IndoorMap extends StatefulWidget {
   @override
@@ -407,7 +409,7 @@ class _IndoorMapState extends State<IndoorMap> {
         onPressed: () {
           print('Back');
           MaterialPageRoute materialPageRoute = MaterialPageRoute(
-              builder: (BuildContext context) => SearchRoom());
+              builder: (BuildContext context) => HomePage());
           Navigator.of(context).push(materialPageRoute);
         },
         tooltip: 'back',
@@ -422,13 +424,13 @@ class _IndoorMapState extends State<IndoorMap> {
 Widget bottomNavigation(BuildContext context) {
   return BottomAppBar(
     // alignment: Alignment.bottomCenter,
-    color: Color(0xFF0d1b46),
+    color: Color(0xFF384861),
     child: Container(
       child: ListTile(
         leading: Container(
           child: SizedBox(
-            width: 25,
-            height: 25,
+            width: 35,
+            height: 35,
             child: MaterialButton(
               onPressed: () {
                 Navigator.pop(context);
