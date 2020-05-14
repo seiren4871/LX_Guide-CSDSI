@@ -13,7 +13,11 @@ class LoginPage extends StatefulWidget {
   _LoginPageState createState() => _LoginPageState();
 }
 
+
 class _LoginPageState extends State<LoginPage> {
+
+  String emailInput = "";
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIOverlays([]);
@@ -105,6 +109,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+
 }
 
 Widget bottomNavigation(BuildContext context) {

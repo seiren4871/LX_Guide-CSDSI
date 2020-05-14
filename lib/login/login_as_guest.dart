@@ -34,7 +34,7 @@ class _LoginAsGuestPageState extends State<LoginAsGuestPage> {
   ] ;
 
   String dropdownValue = 'Student';
-
+  String nameInput = "";
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIOverlays([]);
@@ -95,7 +95,7 @@ class _LoginAsGuestPageState extends State<LoginAsGuestPage> {
                               textAlign: TextAlign.start,
                               keyboardType: TextInputType.text,
                               onFieldSubmitted: (value) {
-                                //_doApiCall();
+                                nameInput = value.trim();
                               },
                               decoration: InputDecoration(
                                 filled: true,
@@ -222,6 +222,8 @@ class _LoginAsGuestPageState extends State<LoginAsGuestPage> {
       ),
     );
   }
+
+
 }
 
 Widget bottomNavigation(BuildContext context) {

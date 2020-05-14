@@ -26,9 +26,18 @@ class _LoginWithIdPageState extends State<LoginWithIdPage> {
     borderRadius: BorderRadius.circular(5.0),
   );
 
+  final GlobalKey<FormState> _emailKey  = GlobalKey<FormState>();
+  final GlobalKey<FormState> _idKey  = GlobalKey<FormState>();
+
+  bool _autoValidate = false;
+
+  String email;
+  String studentId;
+  List<String> _checkYear = ["56", "57", "58", "59", "60" , "61", "62" ];
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIOverlays([]);
+
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       bottomNavigationBar: bottomNavigation(context),
@@ -81,33 +90,47 @@ class _LoginWithIdPageState extends State<LoginWithIdPage> {
                             SizedBox(
                               height: 8.0,
                             ),
-                            TextFormField(
-                              controller: _emailController,
-                              textAlign: TextAlign.start,
-                              keyboardType: TextInputType.emailAddress,
-                              onFieldSubmitted: (value) {
-                                //_doApiCall();
-                              },
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: lButtonColor.withOpacity(0.1),
-                                focusColor: lButtonColor.withOpacity(0.1),
-                                hoverColor: lButtonColor.withOpacity(0.1),
-                                border: txtBorder,
-                                focusedBorder: txtBorder,
-                                enabledBorder: txtBorder,
-                                disabledBorder: txtBorder,
-                                contentPadding: EdgeInsets.all(10),
-                                hintText: "XXXXX@mail.kmutt.ac.th",
-                                hintStyle: editTextHintStyle,
+                            Form(
+                              key: _emailKey,
+                              autovalidate: _autoValidate,
+                              child: TextFormField(
+                                controller: _emailController,
+                                textAlign: TextAlign.start,
+                                keyboardType: TextInputType.emailAddress,
+                                validator: _validateEmail,
+//                              onChanged: (value) {
+//                                //_doApiCall();
+//                                setState(() {
+//                                  _autoValidate = true;
+//                                });
+//                              },
+                                onSaved: (String value) {
+//                                  setState(() {
+                                    email = value;
+//                                  });
+                                },
+                                decoration: InputDecoration(
+                                  filled: true,
+                                  fillColor: lButtonColor.withOpacity(0.1),
+                                  focusColor: lButtonColor.withOpacity(0.1),
+                                  hoverColor: lButtonColor.withOpacity(0.1),
+                                  border: txtBorder,
+                                  focusedBorder: txtBorder,
+                                  enabledBorder: txtBorder,
+                                  disabledBorder: txtBorder,
+                                  contentPadding: EdgeInsets.all(10),
+                                  hintText: "XXXXX@mail.kmutt.ac.th",
+                                  hintStyle: editTextHintStyle,
+                                ),
+                                style: editTextStyle,
                               ),
-                              style: editTextStyle,
                             ),
+
                             SizedBox(
                               height: 20.0,
                             ),
                             Text(
-                              "Password",
+                              "Student ID",
                               textDirection: TextDirection.ltr,
                               style: new TextStyle(
                                   color: Colors.black87,
@@ -117,40 +140,53 @@ class _LoginWithIdPageState extends State<LoginWithIdPage> {
                             SizedBox(
                               height: 8.0,
                             ),
-                            TextFormField(
-                              controller: _passwordController,
-                              textAlign: TextAlign.start,
-                              obscureText: true,
-                              keyboardType: TextInputType.visiblePassword,
-                              onFieldSubmitted: (value) {
-                                //_doApiCall();
-                              },
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: lButtonColor.withOpacity(0.1),
-                                focusColor: lButtonColor.withOpacity(0.1),
-                                hoverColor: lButtonColor.withOpacity(0.1),
-                                border: txtBorder,
-                                focusedBorder: txtBorder,
-                                enabledBorder: txtBorder,
-                                disabledBorder: txtBorder,
-                                contentPadding: EdgeInsets.all(10),
-                                hintText: "**********",
-                                hintStyle: editTextHintStyle,
+                            Form(
+                              key: _idKey,
+                              autovalidate: _autoValidate,
+                              child: TextFormField(
+                                controller: _passwordController,
+                                textAlign: TextAlign.start,
+                                obscureText: false,
+                                validator: ( String id ) {
+
+                                  if( !_checkYear.contains(id.substring(0, 2) ) ) {
+                                    return "invalid ID";
+                                  }else {
+                                    return null;
+                                  }
+                                },
+                                keyboardType: TextInputType.visiblePassword,
+                                onSaved: ( String value) {
+                                  studentId = value;
+                                },
+                                decoration: InputDecoration(
+                                  filled: true,
+                                  fillColor: lButtonColor.withOpacity(0.1),
+                                  focusColor: lButtonColor.withOpacity(0.1),
+                                  hoverColor: lButtonColor.withOpacity(0.1),
+                                  border: txtBorder,
+                                  focusedBorder: txtBorder,
+                                  enabledBorder: txtBorder,
+                                  disabledBorder: txtBorder,
+                                  contentPadding: EdgeInsets.all(10),
+                                  hintText: "**********",
+                                  hintStyle: editTextHintStyle,
+                                ),
+                                style: editTextStyle,
                               ),
-                              style: editTextStyle,
                             ),
+
                             SizedBox(
                               height: 20.0,
                             ),
                             InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => TutorialPage()),
-                                );
-                              },
+                              onTap: _validateForm,
+//                                Navigator.push(
+//                                  context,
+//                                  MaterialPageRoute(
+//                                      builder: (context) => TutorialPage()),
+//                                );
+
                               child: Container(
                                 height: 50.0,
                                 width: 150.0,
@@ -200,6 +236,31 @@ class _LoginWithIdPageState extends State<LoginWithIdPage> {
       ),
     );
   }
+  String _validateEmail(String email) {
+    String pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+){1})|(\".+\"))@((mail)\.kmutt\.(ac)\.(th))$';
+    RegExp reg = new RegExp(pattern);
+    if(!reg.hasMatch(email ) ) {
+      return "insert your KMUTT email";
+    }else {
+      return null;
+    }
+  }
+  void _validateForm() {
+    if(_emailKey.currentState.validate()
+        && _idKey.currentState.validate() ) {
+      _emailKey.currentState.save();
+      _idKey.currentState.save();
+
+      print('user email : $email' );
+      print('student id : $studentId');
+
+    }else {
+      setState(() {
+        _autoValidate = true;
+      });
+    }
+  }
+
 }
 
 

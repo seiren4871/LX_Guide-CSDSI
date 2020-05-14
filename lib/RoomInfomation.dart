@@ -240,14 +240,11 @@ class _RoomInfomationState extends State<RoomInfomation> {
   void createRecord(String key) async {
     await databaseReference
         .collection("keyword")
-        .document("key$count")
-        .setData({
+        .add({
       'keywordName': "$key",
       'roomId': "lx1200A",
       'distacnce': "null",
     });
-    count++;
-    print(count);
   }
 // void getRoomName(String ) async {
 //
