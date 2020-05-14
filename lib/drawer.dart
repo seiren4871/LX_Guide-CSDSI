@@ -1,6 +1,9 @@
+import 'package:LXGuide/login/login.dart';
 import 'package:flutter/material.dart';
 import 'main.dart';
 import 'theme.dart';
+import 'package:LXGuide/login/login.dart';
+import 'package:LXGuide/home/home.dart';
 
 class AppDrawer extends StatelessWidget {
   @override
@@ -16,25 +19,30 @@ class AppDrawer extends StatelessWidget {
             onTap: () {
               Navigator.of(context).pop();
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => SearchRoom()));
+                  builder: (BuildContext context) => HomePage()));
             },
           ),
-          Divider(),
+           Divider(
+            color: Color(0xFFf8777c),
+            thickness: 1.0,
+          ),
           _createDrawerItem(
             icon: Icons.exit_to_app,
-            text: 'Log out',
+            text: 'Exit',
             onTap: () {
               Navigator.of(context).pop();
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => SearchRoom()));
+                  builder: (BuildContext context) => LoginPage()));
             },
           ),
-          Divider(),
-          _createDrawerItem(
-            icon: Icons.language,
-            text: 'Switch Language',
-            onTap: null
+          Divider(
+            color: Color(0xFFf8777c),
+            thickness: 1.0,
           ),
+          _createDrawerItem(
+              icon: Icons.language,
+              text: 'Switch Language\n(coming soon...)',
+              onTap: null),
         ],
       ),
     );
@@ -42,13 +50,17 @@ class AppDrawer extends StatelessWidget {
 
   Widget _createHeader() {
     return UserAccountsDrawerHeader(
-      accountName: Text("John Doe"),
-      accountEmail: Text("john.doe123@mail.kmutt.ac.th"),
+      decoration: BoxDecoration(
+        color: Color(0xFFf8777c),
+      ),
+      accountName: Text("John Doe"), //accountName HERE!
+      accountEmail: Text("john.doe123@mail.kmutt.ac.th"), //accountEmail HERE!!
       currentAccountPicture: CircleAvatar(
+        foregroundColor: Color(0xFF65bcbf),
         backgroundColor: Colors.white,
-        child: Text(
-          "J",
-          style: TextStyle(fontSize: 40.0),
+        child: Icon(
+          Icons.account_circle,
+          size: 40.0,
         ),
       ),
     );

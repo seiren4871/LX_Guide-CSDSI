@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:random_color/random_color.dart';
 
 class Tags {
   final String keywordName;
@@ -72,6 +73,7 @@ Widget _wrapTag(BuildContext context, List<DocumentSnapshot> snapshot) {
 }
 
 Widget _showTag(BuildContext context, DocumentSnapshot data) {
+
   final tag = Tags.fromSnapshot(data);
   print(tag.keywordName);
   return Material(
@@ -80,7 +82,7 @@ Widget _showTag(BuildContext context, DocumentSnapshot data) {
       color: Colors.deepPurple,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50.0),
-          side: BorderSide(color: Colors.deepPurple)),
+          side: BorderSide(color: Colors.white)),
       child: Text(
         tag.keywordName,
         style: TextStyle(color: Colors.white),

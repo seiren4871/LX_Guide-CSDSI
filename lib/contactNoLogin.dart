@@ -4,11 +4,10 @@ import 'drawer.dart';
 import 'SearchRoomPage.dart';
 import 'package:flutter/services.dart';
 import 'theme.dart';
-import 'package:LXGuide/home/home.dart';
 
-class ContactUs extends StatefulWidget {
+class ContactUsNoLogin extends StatefulWidget {
   @override
-  _ContactUsState createState() => _ContactUsState();
+  _ContactUsNoLoginState createState() => _ContactUsNoLoginState();
 }
 
 enum ConfirmAction { CANCEL, ACCEPT }
@@ -19,7 +18,7 @@ Future<ConfirmAction> _asyncConfirmDialog(BuildContext context) async {
     barrierDismissible: false, // user must tap button for close dialog!
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('Confirm?'),
+        title: Text('Are you sure?'),
         content: const Text('This will not back to fix it again.'),
         actions: <Widget>[
           FlatButton(
@@ -33,7 +32,7 @@ Future<ConfirmAction> _asyncConfirmDialog(BuildContext context) async {
             onPressed: () {
               Navigator.of(context).pop(ConfirmAction.ACCEPT);
               MaterialPageRoute materialPageRoute =
-              MaterialPageRoute(builder: (BuildContext context) => HomePage());
+              MaterialPageRoute(builder: (BuildContext context) => SearchRoom());
               Navigator.of(context).push(materialPageRoute);
             },
           )
@@ -43,17 +42,17 @@ Future<ConfirmAction> _asyncConfirmDialog(BuildContext context) async {
   );
 }
 
-class _ContactUsState extends State<ContactUs> {
+class _ContactUsNoLoginState extends State<ContactUsNoLogin> {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIOverlays([]);
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       bottomNavigationBar: bottomNavigation(context),
-      drawer: AppDrawer(),
       appBar: AppBar(
         backgroundColor: Color(0xFFf8777c),
         title: Text("Contact Us"),
+        automaticallyImplyLeading: false,
       ),
       body: new SafeArea(
         child: SingleChildScrollView(
@@ -99,19 +98,6 @@ class _ContactUsState extends State<ContactUs> {
         ),
 
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     print('Back');
-      //     MaterialPageRoute materialPageRoute =
-      //     MaterialPageRoute(builder: (BuildContext context) => SearchRoom());
-      //     Navigator.of(context).push(materialPageRoute);
-      //   },
-      //   tooltip: 'back',
-      //   child: Icon(Icons.arrow_back_ios),
-      //   foregroundColor: Color(0xFF0e1b47),
-      //   backgroundColor: Color(0xFF66bcc0),
-      //   mini: true,
-      // ),
     );
   }
 
@@ -244,26 +230,6 @@ Widget bottomNavigation(BuildContext context) {
                 Icons.arrow_back_ios,
                 size: 15,
                 color: Color(0xFF0d1b46),
-              ),
-            ),
-          ),
-        ),
-        trailing: Container(
-          child: SizedBox(
-            child: FlatButton(
-              // padding: EdgeInsets.all(1),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ContactUs(),
-                    ));
-              },
-              child: RichText(
-                text: TextSpan(
-                  text: "Contact Us",
-                  style: TextStyle(color: Color(0xFF65bcbf)),
-                ),
               ),
             ),
           ),
