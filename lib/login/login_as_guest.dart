@@ -10,7 +10,9 @@ import 'package:LXGuide/singleton.dart';
 import '../colors.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-int gpsCount, switchCount, searchCount = 0;
+int gpsCount =0;
+int switchCount = 0;
+int searchCount = 0;
 
 final GlobalKey<FormState> _emailKey  = GlobalKey<FormState>();
 //final GlobalKey<FormState> _idKey  = GlobalKey<FormState>();
